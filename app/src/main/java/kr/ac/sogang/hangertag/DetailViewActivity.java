@@ -25,7 +25,7 @@ public class DetailViewActivity extends Activity {
     int[] images = {
             R.mipmap.minkyu0430_405,
             R.mipmap.i1,
-            R.mipmap.i2
+            R.mipmap.i2,
     };
 
     @Override
@@ -86,8 +86,8 @@ public class DetailViewActivity extends Activity {
             }
 
             image.setImageResource(images[position]);
-            image.setScaleType(ImageView.ScaleType.CENTER_CROP);
-            image.setLayoutParams(new Gallery.LayoutParams(100,100));
+            image.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+            image.setLayoutParams(new Gallery.LayoutParams(200,200));
 
             return image;
         }
