@@ -12,7 +12,7 @@
     tools:context=".DetailViewActivity">
 
     <ImageView
-        android:id="@+id/ItemView"
+        android:id="@+id/ItemImage"
         android:layout_gravity="center"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />

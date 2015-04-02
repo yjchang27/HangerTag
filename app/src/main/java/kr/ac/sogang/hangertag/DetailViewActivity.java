@@ -2,41 +2,96 @@
 
 package kr.ac.sogang.hangertag;
 
+import android.content.Context;
 import android.support.v7.app.ActionBarActivity;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.BaseAdapter;
+import android.widget.Button;
+import android.widget.Gallery;
+import android.widget.ImageView;
 
 
 public class DetailViewActivity extends Activity {
+
+    ImageView itemImage;
+    Gallery itemGallery;
+    Button itemGoBack;
+    int[] images = {
+            R.mipmap.minkyu0430_405,
+            R.mipmap.i1,
+            R.mipmap.i2
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_view);
+
+        itemGallery = (Gallery)findViewById(R.id.ItemGallery);
+        itemImage = (ImageView)findViewById(R.id.ItemImage);
+        itemGoBack = (Button)findViewById(R.id.ItemGoBack);
+        itemGoBack.setOnClickListener(new View.OnClickListener(){
+                public void onClick(View v){
+                    finish();
+                }
+        });
+
+        itemGallery.setAdapter(new GalleryAdapter(this));
+        itemGallery.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                itemImage.setImageResource(images[position]);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
     }
 
+    class GalleryAdapter extends BaseAdapter {
+        Context context;
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_detail_view, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        public GalleryAdapter(Context context){
+            this.context = context;
         }
 
-        return super.onOptionsItemSelected(item);
+        public int getCount(){
+            return images.length;
+        }
+
+        public Object getItem(int position){
+            return images[position];
+        }
+
+        public long getItemId(int position){
+            return position;
+        }
+
+        public View getView(int position, View convertView, ViewGroup parent){
+            ImageView image;
+
+            if(convertView == null){
+                image = new ImageView(context);
+            }
+            else {
+                image = (ImageView)convertView;
+            }
+
+            image.setImageResource(images[position]);
+            image.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            image.setLayoutParams(new Gallery.LayoutParams(100,100));
+
+            return image;
+        }
+
     }
+
 }

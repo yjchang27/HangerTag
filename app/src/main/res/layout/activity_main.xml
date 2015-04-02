@@ -9,5 +9,12 @@
     <TextView android:text="@string/hello_world" android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/hangertag3" />
+    
+    <Button
+        android:id="@+id/btGoItem"
+        android:text="상품 페이지로"
+        android:layout_toRightOf="@+id/hangertag3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
 </RelativeLayout>
