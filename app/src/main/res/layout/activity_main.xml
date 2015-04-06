@@ -9,6 +9,14 @@
     <TextView android:text="@string/hello_world" android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/hangertag3" />
+
+    <TextView
+        android:id="@+id/user_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="10dp"
+        android:textSize="18sp" />
     
     <Button
         android:id="@+id/btGoItem"
@@ -16,5 +24,14 @@
         android:layout_toRightOf="@+id/hangertag3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/btGoLogin"
+        android:text="Login"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btGoItem"
+        android:layout_alignLeft="@+id/btGoItem"
+        android:layout_alignStart="@+id/btGoItem" />
 
 </RelativeLayout>
