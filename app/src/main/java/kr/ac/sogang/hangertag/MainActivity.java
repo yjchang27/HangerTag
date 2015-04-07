@@ -29,9 +29,9 @@ public class MainActivity extends FragmentActivity {
         });
 
         Button btGoLogin = (Button)findViewById(R.id.btGoLogin);
-        btGoItem.setOnClickListener(new View.OnClickListener() {
+        btGoLogin.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, DetailViewActivity.class));
+                startActivity(new Intent(MainActivity.this, LoginActivity_new.class));
             }
         });
 
