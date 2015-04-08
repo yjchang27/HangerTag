@@ -3,6 +3,8 @@
     package="kr.ac.sogang.hangertag" >
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+
     <!--
      To retrieve OAuth 2.0 tokens or invalidate tokens to disconnect a user. This disconnect
      option is required to comply with the Google+ Sign-In developer policies
@@ -30,11 +32,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name="com.facebook.FacebookActivity"
-            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
-            android:label="@string/app_name"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+
         <activity
             android:name=".DetailViewActivity"
             android:label="@string/title_activity_detail_view" >
@@ -48,8 +46,22 @@
         <activity
             android:name=".LoginActivity_new"
             android:label="@string/title_activity_login_activity_new"
-            android:windowSoftInputMode="adjustResize|stateVisible" >
-        </activity>
+            android:windowSoftInputMode="adjustResize|stateVisible" />
+
+
+        <activity android:name="com.facebook.FacebookActivity"
+            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:label="@string/app_name" />
+
+        <provider android:authorities="com.facebook.app.FacebookContentProvider355198514515820"
+            android:name="com.facebook.FacebookContentProvider"
+            android:exported="true"/>
+        <receiver android:name="kr.ac.sogang.hangertag.HangerTagFacebookBroadcastReceiver">
+            <intent-filter>
+                <action android:name="com.facebook.platform.AppCallResultBroadcast" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>
