@@ -13,5 +13,7 @@
     <string name="permission_not_granted">권한이 없습니다.</string>
     <string name="hello_user">환영합니다</string>
     <string name="app_id">670067219771799</string>
+    <string name="Login">Login</string>
+    <string name="Info">Info</string>
 
 </resources>
