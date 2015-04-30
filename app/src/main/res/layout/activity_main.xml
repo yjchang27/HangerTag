@@ -12,8 +12,8 @@
     <TextView android:text="@string/hello_world" android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/hangertag3"
-        android:layout_alignBaseline="@+id/btGoItem"
-        android:layout_alignBottom="@+id/btGoItem"
+        android:layout_alignBaseline="@+id/btGoSpecify"
+        android:layout_alignBottom="@+id/btGoSpecify"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
@@ -25,10 +25,10 @@
         android:layout_gravity="center"
         android:layout_margin="10dp"
         android:textSize="18sp" />
-    
+
     <Button
-        android:id="@+id/btGoItem"
-        android:text="@string/Info"
+        android:id="@+id/btGoSpecify"
+        android:text="Specify"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@+id/hangertag3"
@@ -41,9 +41,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_toRightOf="@+id/btGoItem"
-        android:layout_toEndOf="@+id/btGoItem" />
-
+        android:layout_toRightOf="@+id/btGoSpecify"
+        android:layout_toEndOf="@+id/btGoSpecify" />
 
 
 </RelativeLayout>

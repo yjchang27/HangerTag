@@ -22,20 +22,6 @@ public class MainActivity extends FragmentActivity {
         setContentView(R.layout.activity_main);
 
 
-        Button btGoItem = (Button)findViewById(R.id.btGoItem);
-        btGoItem.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this,DetailViewActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-                ItemSet itemSet = new ItemSet();
-                itemSet.description = "0번 상품이다";
-                itemSet.imageList.add(R.mipmap.coat0);
-                itemSet.imageList.add(R.mipmap.coat1);
-                itemSet.imageList.add(R.mipmap.coat2);
-                intent.putExtra("itemSet",itemSet);
-                startActivity(intent);
-            }
-        });
 
         Button btGoLogin = (Button)findViewById(R.id.btGoLogin);
         btGoLogin.setOnClickListener(new View.OnClickListener() {
@@ -44,11 +30,15 @@ public class MainActivity extends FragmentActivity {
             }
         });
 
-
-
+        Button btGoSpecify = (Button)findViewById(R.id.btGoSpecify);
+        btGoSpecify.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, SpecifyViewActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                startActivity(intent);
+            }
+        });
     }
-
-
 
 
     @Override

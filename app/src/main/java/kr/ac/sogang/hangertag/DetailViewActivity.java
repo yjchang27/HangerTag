@@ -47,20 +47,29 @@ public class DetailViewActivity extends Activity implements View.OnClickListener
         itemGallery = (Gallery)findViewById(R.id.ItemGallery);
         itemImage = (ImageView)findViewById(R.id.ItemImage);
         itemDescription = (TextView)findViewById(R.id.ItemDescription);
-        itemGoBack = (Button)findViewById(R.id.ItemGoBack);
-        itemGoBack.setOnClickListener(new View.OnClickListener(){
-                public void onClick(View v){
-                    finish();
-                }
-        });
+        //itemGoBack = (Button)findViewById(R.id.ItemGoBack);
+        //itemGoBack.setOnClickListener(new View.OnClickListener(){
+        //        public void onClick(View v){
+        //            finish();
+        //        }
+        //});
         itemOthers1 = (ImageButton)findViewById(R.id.ibDetail1);
         itemOthers1.setOnClickListener(this);
         itemOthers2 = (ImageButton)findViewById(R.id.ibDetail2);
         itemOthers2.setOnClickListener(this);
         itemOthers3 = (ImageButton)findViewById(R.id.ibDetail3);
+        itemOthers3.setOnClickListener(this);
 
         images = new ArrayList<>();
 
+        Button ItemGoBack = (Button)findViewById(R.id.ItemGoBack);
+        ItemGoBack.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent = new Intent(DetailViewActivity.this, SpecifyViewActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                startActivity(intent);
+            }
+        });
 
         Intent intent = getIntent();
         if (intent != null){
@@ -138,6 +147,14 @@ public class DetailViewActivity extends Activity implements View.OnClickListener
         }
         if(v.getId()==R.id.ibDetail2) {
             itemSet.description = "2번 상품이다";
+            itemSet.imageList.add(R.mipmap.coat0);
+            itemSet.imageList.add(R.mipmap.coat1);
+            itemSet.imageList.add(R.mipmap.coat2);
+            itemSet.imageList.add(R.mipmap.coat2);
+            intent.putExtra("itemSet",itemSet);
+        }
+        if(v.getId()==R.id.ibDetail3) {
+            itemSet.description = "3번 상품이다";
             itemSet.imageList.add(R.mipmap.denim0);
             itemSet.imageList.add(R.mipmap.denim1);
             itemSet.imageList.add(R.mipmap.denim2);
@@ -146,6 +163,12 @@ public class DetailViewActivity extends Activity implements View.OnClickListener
         }
         startActivity(intent);
 
+    }
+
+    public void onBackPressed() {
+        Intent intent = new Intent(DetailViewActivity.this, SpecifyViewActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+        startActivity(intent);
     }
 
 }

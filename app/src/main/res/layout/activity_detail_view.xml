@@ -26,7 +26,7 @@
 
         <ImageButton
             android:id="@+id/ibDetail2"
-            android:src="@mipmap/denim0"
+            android:src="@mipmap/coat0"
             android:scaleType="centerInside"
             android:layout_weight="1"
             android:layout_width="60dp"
@@ -34,7 +34,7 @@
 
         <ImageButton
             android:id="@+id/ibDetail3"
-            android:src="@mipmap/ic_launcher"
+            android:src="@mipmap/denim0"
             android:scaleType="centerInside"
             android:layout_weight="1"
             android:layout_width="60dp"
