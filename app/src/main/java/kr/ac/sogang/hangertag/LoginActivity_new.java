@@ -46,6 +46,9 @@ import com.facebook.share.model.ShareLinkContent;
 import com.facebook.share.widget.ShareDialog;
 
 
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -60,9 +63,9 @@ public class LoginActivity_new extends FragmentActivity implements LoaderCallbac
      * A dummy authentication store containing known user names and passwords.
      * TODO: remove after connecting to a real authentication system.
      */
-    private static final String[] DUMMY_CREDENTIALS = new String[]{
+    /*private static final String[] DUMMY_CREDENTIALS = new String[]{
             "foo@example.com:hello", "bar@example.com:world"
-    };
+    };*/
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
@@ -76,7 +79,7 @@ public class LoginActivity_new extends FragmentActivity implements LoaderCallbac
 
 
     //facebook sdk
-    private static final String PERMISSION = "publish_actions";
+    private static final String PERMISSION = "publish_actions,public_profile,email,user_birthday";
 //    private static final Location SEATTLE_LOCATION = new Location("") {
 //        {
 //            setLatitude(47.6097);
@@ -445,13 +448,13 @@ public class LoginActivity_new extends FragmentActivity implements LoaderCallbac
                 return false;
             }
 
-            for (String credential : DUMMY_CREDENTIALS) {
+            /*for (String credential : DUMMY_CREDENTIALS) {
                 String[] pieces = credential.split(":");
                 if (pieces[0].equals(mEmail)) {
                     // Account exists, return true if the password matches.
                     return pieces[1].equals(mPassword);
                 }
-            }
+            }*/
 
             // TODO: register the new account here.
             return true;
@@ -526,9 +529,16 @@ public class LoginActivity_new extends FragmentActivity implements LoaderCallbac
         postPhotoButton.setEnabled(enableButtons || canPresentShareDialogWithPhotos);
 
         Profile profile = Profile.getCurrentProfile();
+
+
         if (enableButtons && profile != null) {
+            List<NameValuePair> params= new ArrayList<NameValuePair>();
             profilePictureView.setProfileId(profile.getId());
-            greeting.setText(getString(R.string.hello_user, profile.getFirstName()));
+            greeting.setText(getString(R.string.hello_user) + profile.getLastName());
+            params.add(new BasicNameValuePair("user_login", profile.getId()));
+            params.add(new BasicNameValuePair("user_nickname",profile.getName()));
+           // params.add(new BasicNameValuePair("user_email",profile.))
+
         } else {
             profilePictureView.setProfileId(null);
             greeting.setText(null);
