@@ -537,7 +537,7 @@ public class LoginActivity_new extends FragmentActivity implements LoaderCallbac
             greeting.setText(getString(R.string.hello_user) + profile.getLastName());
             params.add(new BasicNameValuePair("user_login", profile.getId()));
             params.add(new BasicNameValuePair("user_nickname",profile.getName()));
-           // params.add(new BasicNameValuePair("user_email",profile.))
+         //   params.add(new BasicNameValuePair("user_email",profile.))
 
         } else {
             profilePictureView.setProfileId(null);
