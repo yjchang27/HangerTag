@@ -4,6 +4,8 @@ package kr.ac.sogang.hangertag;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.ActionBarActivity;
 import android.app.Activity;
 import android.os.Bundle;
@@ -12,11 +14,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Gallery;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -27,16 +32,16 @@ public class DetailViewActivity extends Activity implements View.OnClickListener
     ImageView itemImage;
     TextView itemDescription;
     Gallery itemGallery;
-    Button itemGoBack;
     ImageButton itemOthers1;
     ImageButton itemOthers2;
     ImageButton itemOthers3;
- /*   int[] images = {
-            R.mipmap.minkyu0430_405,
-            R.mipmap.i1,
-            R.mipmap.i2,
-    };*/
     ArrayList<Integer> images;
+
+    ReplyAdapter replyAdapter;
+    EditText replyFill;
+    Button replyIn;
+    ListView replyList;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,12 +52,7 @@ public class DetailViewActivity extends Activity implements View.OnClickListener
         itemGallery = (Gallery)findViewById(R.id.ItemGallery);
         itemImage = (ImageView)findViewById(R.id.ItemImage);
         itemDescription = (TextView)findViewById(R.id.ItemDescription);
-        //itemGoBack = (Button)findViewById(R.id.ItemGoBack);
-        //itemGoBack.setOnClickListener(new View.OnClickListener(){
-        //        public void onClick(View v){
-        //            finish();
-        //        }
-        //});
+
         itemOthers1 = (ImageButton)findViewById(R.id.ibDetail1);
         itemOthers1.setOnClickListener(this);
         itemOthers2 = (ImageButton)findViewById(R.id.ibDetail2);
@@ -61,6 +61,16 @@ public class DetailViewActivity extends Activity implements View.OnClickListener
         itemOthers3.setOnClickListener(this);
 
         images = new ArrayList<>();
+
+        replyFill = (EditText)findViewById(R.id.ReplyFill);
+        replyIn = (Button)findViewById(R.id.ReplyIn);
+
+        replyAdapter = new ReplyAdapter(this);
+        replyList = (ListView)findViewById(R.id.ReplyList);
+        replyList.setAdapter(replyAdapter);
+        replyList.setDivider(new ColorDrawable(Color.DKGRAY));
+        replyList.setDividerHeight(2);
+
 
         Button ItemGoBack = (Button)findViewById(R.id.ItemGoBack);
         ItemGoBack.setOnClickListener(new View.OnClickListener() {
@@ -76,7 +86,6 @@ public class DetailViewActivity extends Activity implements View.OnClickListener
             ItemSet itemSet;
             itemSet = (ItemSet)intent.getSerializableExtra("itemSet");
             itemDescription.setText(itemSet.description);
-            //images[0] = IntegeritemSet.imageList.get(0)
             images = itemSet.imageList;
         }
 
@@ -133,6 +142,11 @@ public class DetailViewActivity extends Activity implements View.OnClickListener
 
     }
 
+    class ReplyAdapter extends BaseAdapter{
+
+
+    }
+
     public void onClick(View v){
         Intent intent = new Intent(DetailViewActivity.this,DetailViewActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
@@ -170,5 +184,7 @@ public class DetailViewActivity extends Activity implements View.OnClickListener
         intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
         startActivity(intent);
     }
+
+
 
 }
