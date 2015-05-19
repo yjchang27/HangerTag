@@ -31,11 +31,6 @@ public class DetailViewActivity extends Activity implements View.OnClickListener
     ImageButton itemOthers1;
     ImageButton itemOthers2;
     ImageButton itemOthers3;
- /*   int[] images = {
-            R.mipmap.minkyu0430_405,
-            R.mipmap.i1,
-            R.mipmap.i2,
-    };*/
     ArrayList<Integer> images;
 
     @Override
