@@ -4,19 +4,21 @@ package kr.ac.sogang.hangertag;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
 import android.app.Activity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Gallery;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -27,11 +29,15 @@ public class DetailViewActivity extends Activity implements View.OnClickListener
     ImageView itemImage;
     TextView itemDescription;
     Gallery itemGallery;
-    Button itemGoBack;
     ImageButton itemOthers1;
     ImageButton itemOthers2;
     ImageButton itemOthers3;
     ArrayList<Integer> images;
+    EditText replyFill;
+    Button replySet;
+    ArrayList<Reply> replies = new ArrayList<>();
+    ListView replyList;
+    ScrollView svDetailview;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,12 +48,6 @@ public class DetailViewActivity extends Activity implements View.OnClickListener
         itemGallery = (Gallery)findViewById(R.id.ItemGallery);
         itemImage = (ImageView)findViewById(R.id.ItemImage);
         itemDescription = (TextView)findViewById(R.id.ItemDescription);
-        //itemGoBack = (Button)findViewById(R.id.ItemGoBack);
-        //itemGoBack.setOnClickListener(new View.OnClickListener(){
-        //        public void onClick(View v){
-        //            finish();
-        //        }
-        //});
         itemOthers1 = (ImageButton)findViewById(R.id.ibDetail1);
         itemOthers1.setOnClickListener(this);
         itemOthers2 = (ImageButton)findViewById(R.id.ibDetail2);
@@ -56,6 +56,31 @@ public class DetailViewActivity extends Activity implements View.OnClickListener
         itemOthers3.setOnClickListener(this);
 
         images = new ArrayList<>();
+
+        replyFill = (EditText)findViewById(R.id.etReplyFill);
+        replySet = (Button)findViewById(R.id.btReplySet);
+
+        svDetailview = (ScrollView)findViewById(R.id.svDetailView);
+        replyList = (ListView)findViewById(R.id.lvReply);
+        final ReplyAdapter replyAdapter = new ReplyAdapter(this, R.layout.reply, replies);
+        replyList.setAdapter(replyAdapter);
+
+        replySet.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v) {
+                Reply temp = new Reply();
+                temp.UserId = "testing";
+                temp.Content = replyFill.getText().toString();
+                replies.add(temp);
+                replyAdapter.notifyDataSetChanged();
+            }
+        });
+       /* replyList.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                //svDetailview.requestDisallowInterceptTouchEvent(true);
+                return false;
+            }
+        });*/
 
         Button ItemGoBack = (Button)findViewById(R.id.ItemGoBack);
         ItemGoBack.setOnClickListener(new View.OnClickListener() {
@@ -71,7 +96,6 @@ public class DetailViewActivity extends Activity implements View.OnClickListener
             ItemSet itemSet;
             itemSet = (ItemSet)intent.getSerializableExtra("itemSet");
             itemDescription.setText(itemSet.description);
-            //images[0] = IntegeritemSet.imageList.get(0)
             images = itemSet.imageList;
         }
 
@@ -126,6 +150,39 @@ public class DetailViewActivity extends Activity implements View.OnClickListener
             return image;
         }
 
+    }
+
+    class ReplyAdapter extends BaseAdapter {
+
+        Context context;
+        LayoutInflater inflater;
+        ArrayList<Reply> replylist;
+        int layout;
+
+        public ReplyAdapter(Context context, int layout, ArrayList<Reply> replyList){
+            this.context = context;
+            inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            this.layout = layout;
+            this.replylist = replyList;
+        }
+        @Override
+        public int getCount(){return replylist.size();}
+        @Override
+        public Object getItem(int position){return replylist.get(position);}
+        @Override
+        public long getItemId(int position){return position;}
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            if (convertView == null) convertView = inflater.inflate(layout,parent,false);
+
+            TextView id = (TextView) convertView.findViewById(R.id.tvReplyId);
+            id.setText(replylist.get(position).UserId);
+
+            TextView con = (TextView) convertView.findViewById(R.id.tvReplyCon);
+            con.setText(replylist.get(position).Content);
+
+            return convertView;
+        }
     }
 
     public void onClick(View v){
