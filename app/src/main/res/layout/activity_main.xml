@@ -44,5 +44,14 @@
         android:layout_toRightOf="@+id/btGoSpecify"
         android:layout_toEndOf="@+id/btGoSpecify" />
 
+    <Button
+        android:id="@+id/btNetworkTest"
+        android:text="Net"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_toRightOf="@+id/btGoLogin"
+        android:layout_toEndOf="@+id/btGoLogin" />
+
 
 </RelativeLayout>

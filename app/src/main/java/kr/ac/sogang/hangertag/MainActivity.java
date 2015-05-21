@@ -38,6 +38,17 @@ public class MainActivity extends FragmentActivity {
                 startActivity(intent);
             }
         });
+
+        Button btNetworkTest = (Button)findViewById(R.id.btNetworkTest);
+        btNetworkTest.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, NetworkTestActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                startActivity(intent);
+            }
+        });
+
+
     }
 
 

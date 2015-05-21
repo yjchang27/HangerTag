@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -18,9 +17,7 @@ import android.widget.Gallery;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.ScrollView;
 import android.widget.TextView;
-
 import java.util.ArrayList;
 
 
@@ -75,13 +72,7 @@ public class DetailViewActivity extends Activity implements View.OnClickListener
                 replyAdapter.notifyDataSetChanged();
             }
         });
-       /* replyList.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                //svDetailview.requestDisallowInterceptTouchEvent(true);
-                return false;
-            }
-        });*/
+
 
         Button ItemGoBack = (Button)findViewById(R.id.ItemGoBack);
         ItemGoBack.setOnClickListener(new View.OnClickListener() {
