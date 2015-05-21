@@ -26,6 +26,7 @@ import java.util.ArrayList;
 
 public class DetailViewActivity extends Activity implements View.OnClickListener {
 
+    View header;
     ImageView itemImage;
     TextView itemDescription;
     Gallery itemGallery;
@@ -37,13 +38,16 @@ public class DetailViewActivity extends Activity implements View.OnClickListener
     Button replySet;
     ArrayList<Reply> replies = new ArrayList<>();
     ListView replyList;
-    ScrollView svDetailview;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_view);
-
+        header = getLayoutInflater().inflate(R.layout.activity_detail_header,null,false);
+        replyList = (ListView)findViewById(R.id.lvReply);
+        final ReplyAdapter replyAdapter = new ReplyAdapter(this, R.layout.reply, replies);
+        replyList.addHeaderView(header);
+        replyList.setAdapter(replyAdapter);
 
         itemGallery = (Gallery)findViewById(R.id.ItemGallery);
         itemImage = (ImageView)findViewById(R.id.ItemImage);
@@ -60,10 +64,7 @@ public class DetailViewActivity extends Activity implements View.OnClickListener
         replyFill = (EditText)findViewById(R.id.etReplyFill);
         replySet = (Button)findViewById(R.id.btReplySet);
 
-        svDetailview = (ScrollView)findViewById(R.id.svDetailView);
-        replyList = (ListView)findViewById(R.id.lvReply);
-        final ReplyAdapter replyAdapter = new ReplyAdapter(this, R.layout.reply, replies);
-        replyList.setAdapter(replyAdapter);
+
 
         replySet.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v) {
