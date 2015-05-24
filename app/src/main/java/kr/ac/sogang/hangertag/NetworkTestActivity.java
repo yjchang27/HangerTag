@@ -69,18 +69,19 @@ public class NetworkTestActivity extends Activity implements View.OnClickListene
 
     public String getJsonText() {
 
+        String jsonPage;
         StringBuffer sb = new StringBuffer();
         try {
 
             //주어진 URL 문서의 내용을 문자열로 얻는다.
-            String jsonPage = getStringFromUrl("http://www.btworks.co.kr");
-            sb.append(jsonPage);
-/*
+            jsonPage = getStringFromUrl("http://www.followkr.com/rank/realtime.php");
+          //  sb.append(jsonPage);
+
             //읽어들인 JSON포맷의 데이터를 JSON객체로 변환
             JSONObject json = new JSONObject(jsonPage);
 
-            //ksk_list의 값은 배열로 구성 되어있으므로 JSON 배열생성
-            JSONArray jArr = json.getJSONArray("ksk_list");
+            //list의 값은 배열로 구성 되어있으므로 JSON 배열생성
+            JSONArray jArr = json.getJSONArray("rankedTwitList");
 
             //배열의 크기만큼 반복하면서, ksNo과 korName의 값을 추출함
             for (int i=0; i<jArr.length(); i++){
@@ -88,18 +89,12 @@ public class NetworkTestActivity extends Activity implements View.OnClickListene
                 //i번째 배열 할당
                 json = jArr.getJSONObject(i);
 
-                //ksNo,korName의 값을 추출함
-                String ksNo = json.getString("ksNo");
-                String korName = json.getString("korName");
-                System.out.println("ksNo:"+ksNo+"/korName:"+korName);
+                String pName = json.getString("owner");
+                sb.append("["+ pName + "]\n");
 
-                //StringBuffer 출력할 값을 저장
-                sb.append("[ "+ksNo+" ]\n");
-                sb.append(korName+"\n");
-                sb.append("\n");
 
             }
-            */
+
 
         } catch (Exception e) {
             // TODO: handle exception
