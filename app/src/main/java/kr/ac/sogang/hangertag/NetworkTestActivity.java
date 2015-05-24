@@ -70,26 +70,33 @@ public class NetworkTestActivity extends Activity implements View.OnClickListene
     public String getJsonText() {
 
         String jsonPage;
-        StringBuffer sb = new StringBuffer();
+        String test;
+        StringBuilder sb = new StringBuilder();
         try {
 
             //주어진 URL 문서의 내용을 문자열로 얻는다.
-            jsonPage = getStringFromUrl("http://www.followkr.com/rank/realtime.php");
-          //  sb.append(jsonPage);
+            jsonPage = getStringFromUrl("http://trn.iptime.org:3000/products.json");
+
 
             //읽어들인 JSON포맷의 데이터를 JSON객체로 변환
             JSONObject json = new JSONObject(jsonPage);
 
             //list의 값은 배열로 구성 되어있으므로 JSON 배열생성
-            JSONArray jArr = json.getJSONArray("rankedTwitList");
+            JSONArray jArr = json.getJSONArray("products");
 
             //배열의 크기만큼 반복하면서, ksNo과 korName의 값을 추출함
             for (int i=0; i<jArr.length(); i++){
 
                 //i번째 배열 할당
-                json = jArr.getJSONObject(i);
 
-                String pName = json.getString("owner");
+                json = jArr.getJSONObject(i);
+                String string = json.getString("product");
+                string.substring(11);
+                JSONObject json2 = new JSONObject(string);
+               // jArr = json.getJSONArray("product");
+               // json = jArr.getJSONObject(0);
+
+                String pName = json2.getString("name");
                 sb.append("["+ pName + "]\n");
 
 
@@ -113,11 +120,11 @@ public class NetworkTestActivity extends Activity implements View.OnClickListene
         try {
 
             //[Type1]
-            /*
+/*
             HttpClient httpclient = new DefaultHttpClient();
             HttpResponse response = httpclient.execute(new HttpGet(pUrl));
             InputStream contentStream = response.getEntity().getContent();
-            */
+*/
 
             //[Type2]
             URL url= new URL(pUrl);
