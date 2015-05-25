@@ -23,17 +23,17 @@ import java.util.ArrayList;
 
 public class DetailViewActivity extends Activity implements View.OnClickListener {
 
-    View header;
-    ImageView itemImage;
-    TextView itemDescription;
-    Gallery itemGallery;
+    View header;        // 리스트뷰 상단에 고정 레이아웃을 추가하기 위한 뷰.
+    ImageView itemImage;    // 상품의 사진을 게시하는 이미지 뷰.
+    TextView itemDescription;   // 상품 설명
+    Gallery itemGallery;    // 상품의 사진을 넘겨 이미지 뷰에 올리는 갤러리.
     ImageButton itemOthers1;
     ImageButton itemOthers2;
-    ImageButton itemOthers3;
+    ImageButton itemOthers3;    // 상단에 위치하여 다른 상품으로 넘어갈 수 있게 하는 이미지 버튼.
     ArrayList<Integer> images;
     EditText replyFill;
     Button replySet;
-    ArrayList<Reply> replies = new ArrayList<>();
+    ArrayList<Reply> replies = new ArrayList<>();   // 댓글 리스트.
     ListView replyList;
 
     @Override

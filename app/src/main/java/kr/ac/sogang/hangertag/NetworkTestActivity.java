@@ -11,6 +11,7 @@ import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -33,6 +34,7 @@ import android.widget.Toast;
 public class NetworkTestActivity extends Activity implements View.OnClickListener {
 
     TextView textView;
+    ArrayList<ItemSet> itemList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +44,7 @@ public class NetworkTestActivity extends Activity implements View.OnClickListene
         //버튼 클릭 대기 : 시작
         Button btn = (Button)findViewById(R.id.btNetworkTest);
         btn.setOnClickListener(this);
+        itemList = new ArrayList<>();
         //버튼 클릭 대기 : 끝
     }
 
@@ -63,6 +66,8 @@ public class NetworkTestActivity extends Activity implements View.OnClickListene
         } // doInBackground : 백그라운드 작업을 진행한다.
         @Override
         protected void onPostExecute(String result) {
+            result = null;
+            result = itemList.get(0).name;
             textView.setText(result);
         } // onPostExecute : 백그라운드 작업이 끝난 후 UI 작업을 진행한다.
     } // JsonLoadingTask
@@ -70,7 +75,6 @@ public class NetworkTestActivity extends Activity implements View.OnClickListene
     public String getJsonText() {
 
         String jsonPage;
-        String test;
         StringBuilder sb = new StringBuilder();
         try {
 
@@ -88,7 +92,7 @@ public class NetworkTestActivity extends Activity implements View.OnClickListene
             for (int i=0; i<jArr.length(); i++){
 
                 //i번째 배열 할당
-
+                ItemSet item = new ItemSet();
                 json = jArr.getJSONObject(i);
                 String string = json.getString("product");
                 string.substring(11);
@@ -96,9 +100,14 @@ public class NetworkTestActivity extends Activity implements View.OnClickListene
                // jArr = json.getJSONArray("product");
                // json = jArr.getJSONObject(0);
 
-                String pName = json2.getString("name");
-                sb.append("["+ pName + "]\n");
+                item.id = Integer.parseInt(json2.getString("id"));
+                item.name = json2.getString("name");
+                item.price = Integer.parseInt(json2.getString("price"));
+                item.type = json2.getString("type");
+                item.size = json2.getString("size").charAt(0);
+                item.description = json2.getString("description");
 
+                itemList.add(item);
 
             }
 
