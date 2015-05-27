@@ -40,6 +40,8 @@
         </activity>
 
         <activity android:name=".SpecifyViewActivity"/>
+        <activity android:name=".RangingActivity"/>
+        <activity android:name=".MonitoringActivity"/>
 
         <meta-data
             android:name="com.google.android.gms.version"

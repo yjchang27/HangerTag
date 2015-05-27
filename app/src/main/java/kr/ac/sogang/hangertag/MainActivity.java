@@ -33,7 +33,7 @@ public class MainActivity extends FragmentActivity {
         Button btGoSpecify = (Button)findViewById(R.id.btGoSpecify);
         btGoSpecify.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, SpecifyViewActivity.class);
+                Intent intent = new Intent(MainActivity.this, MonitoringActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                 startActivity(intent);
             }
