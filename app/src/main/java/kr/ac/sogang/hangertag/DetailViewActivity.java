@@ -19,11 +19,34 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import java.util.ArrayList;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
+import java.net.URL;
+
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import android.app.Activity;
+import android.os.AsyncTask;
+import android.os.Bundle;
+import android.util.Log;
+import android.widget.Toast;
 
 
 public class DetailViewActivity extends Activity implements View.OnClickListener {
 
     View header;        // 리스트뷰 상단에 고정 레이아웃을 추가하기 위한 뷰.
+    ImageView topBar;
+    TextView itemName;
     ImageView itemImage;    // 상품의 사진을 게시하는 이미지 뷰.
     TextView itemDescription;   // 상품 설명
     Gallery itemGallery;    // 상품의 사진을 넘겨 이미지 뷰에 올리는 갤러리.
@@ -35,20 +58,43 @@ public class DetailViewActivity extends Activity implements View.OnClickListener
     Button replySet;
     ArrayList<Reply> replies = new ArrayList<>();   // 댓글 리스트.
     ListView replyList;
+    int itemIndex;
+    ItemSet itemThis;    // 현 페이지에 표시할 아이템
+    ArrayList<ItemSet> itemList;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_view);
+        topBar = (ImageView)findViewById(R.id.TopBar);
+        topBar.setAdjustViewBounds(true);
         header = getLayoutInflater().inflate(R.layout.activity_detail_header,null,false);
+
         replyList = (ListView)findViewById(R.id.lvReply);
         final ReplyAdapter replyAdapter = new ReplyAdapter(this, R.layout.reply, replies);
         replyList.addHeaderView(header);
         replyList.setAdapter(replyAdapter);
 
+        itemName = (TextView)findViewById(R.id.tvItemName);
+        itemDescription = (TextView)findViewById(R.id.ItemDescription);
+        itemThis = new ItemSet();
+        itemList = new ArrayList<>();
+        images = new ArrayList<>();
+
+        Intent intent = getIntent();
+        if (intent != null){
+            ItemSet itemSet;
+            itemSet = (ItemSet)intent.getSerializableExtra("itemSet");
+            itemIndex = (int)intent.getSerializableExtra("index");
+            images = itemSet.imageList;
+        }
+
+        new JsonLoadingTask().execute();
+
         itemGallery = (Gallery)findViewById(R.id.ItemGallery);
         itemImage = (ImageView)findViewById(R.id.ItemImage);
-        itemDescription = (TextView)findViewById(R.id.ItemDescription);
+
         itemOthers1 = (ImageButton)findViewById(R.id.ibDetail1);
         itemOthers1.setOnClickListener(this);
         itemOthers2 = (ImageButton)findViewById(R.id.ibDetail2);
@@ -56,41 +102,21 @@ public class DetailViewActivity extends Activity implements View.OnClickListener
         itemOthers3 = (ImageButton)findViewById(R.id.ibDetail3);
         itemOthers3.setOnClickListener(this);
 
-        images = new ArrayList<>();
 
         replyFill = (EditText)findViewById(R.id.etReplyFill);
         replySet = (Button)findViewById(R.id.btReplySet);
 
-
-
         replySet.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v) {
                 Reply temp = new Reply();
+                String upload;
                 temp.UserId = "testing";
                 temp.Content = replyFill.getText().toString();
                 replies.add(temp);
+                upload = "[{\"customer\":\"" + temp.UserId + "\",\"body\":\"" + temp.Content + "\"}]";
                 replyAdapter.notifyDataSetChanged();
             }
         });
-
-
-        Button ItemGoBack = (Button)findViewById(R.id.ItemGoBack);
-        ItemGoBack.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Intent intent = new Intent(DetailViewActivity.this, SpecifyViewActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-                startActivity(intent);
-            }
-        });
-
-        Intent intent = getIntent();
-        if (intent != null){
-            ItemSet itemSet;
-            itemSet = (ItemSet)intent.getSerializableExtra("itemSet");
-            itemDescription.setText(itemSet.description);
-            images = itemSet.imageList;
-        }
-
 
         itemGallery.setAdapter(new GalleryAdapter(this));
         itemGallery.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -182,28 +208,31 @@ public class DetailViewActivity extends Activity implements View.OnClickListener
         intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
         ItemSet itemSet = new ItemSet();
         if(v.getId()==R.id.ibDetail1) {
-            itemSet.description = "1번 상품이다";
             itemSet.imageList.add(R.mipmap.blouson0);
             itemSet.imageList.add(R.mipmap.blouson1);
             itemSet.imageList.add(R.mipmap.blouson2);
             itemSet.imageList.add(R.mipmap.blouson3);
+            int index = 0;
             intent.putExtra("itemSet",itemSet);
+            intent.putExtra("index",index);
         }
         if(v.getId()==R.id.ibDetail2) {
-            itemSet.description = "2번 상품이다";
             itemSet.imageList.add(R.mipmap.coat0);
             itemSet.imageList.add(R.mipmap.coat1);
             itemSet.imageList.add(R.mipmap.coat2);
             itemSet.imageList.add(R.mipmap.coat2);
+            int index = 1;
             intent.putExtra("itemSet",itemSet);
+            intent.putExtra("index",index);
         }
         if(v.getId()==R.id.ibDetail3) {
-            itemSet.description = "3번 상품이다";
             itemSet.imageList.add(R.mipmap.denim0);
             itemSet.imageList.add(R.mipmap.denim1);
             itemSet.imageList.add(R.mipmap.denim2);
             itemSet.imageList.add(R.mipmap.denim3);
+            int index = 2;
             intent.putExtra("itemSet",itemSet);
+            intent.putExtra("index",index);
         }
         startActivity(intent);
 
@@ -214,5 +243,116 @@ public class DetailViewActivity extends Activity implements View.OnClickListener
         intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
         startActivity(intent);
     }
+
+    private class JsonLoadingTask extends AsyncTask<String, Void, String> {
+        @Override
+        protected String doInBackground(String... strs) {
+            return getJsonText();
+        } // doInBackground : 백그라운드 작업을 진행한다.
+        @Override
+        protected void onPostExecute(String result) {
+            itemThis = itemList.get(itemIndex);
+
+            result = "가격 : " + itemThis.price +
+                    "\n종류 : " + itemThis.type +
+                    "\n사이즈 : " + itemThis.size +
+                    "\n상세설명 : " + itemThis.description;
+            itemName.setText(itemThis.name);
+            itemDescription.setText(result);
+        } // onPostExecute : 백그라운드 작업이 끝난 후 UI 작업을 진행한다.
+    } // JsonLoadingTask
+
+    public String getJsonText() {
+
+        String jsonPage;
+        StringBuilder sb = new StringBuilder();
+        try {
+
+            //주어진 URL 문서의 내용을 문자열로 얻는다.
+            jsonPage = getStringFromUrl("http://trn.iptime.org:3000/products.json");
+
+
+            //읽어들인 JSON포맷의 데이터를 JSON객체로 변환
+            JSONObject json = new JSONObject(jsonPage);
+
+            //list의 값은 배열로 구성 되어있으므로 JSON 배열생성
+            JSONArray jArr = json.getJSONArray("products");
+
+            //배열의 크기만큼 반복하면서, ksNo과 korName의 값을 추출함
+            for (int i=0; i<jArr.length(); i++){
+
+                //i번째 배열 할당
+                ItemSet item = new ItemSet();
+                json = jArr.getJSONObject(i);
+                String string = json.getString("product");
+                string.substring(11);
+                JSONObject json2 = new JSONObject(string);
+                // jArr = json.getJSONArray("product");
+                // json = jArr.getJSONObject(0);
+
+                item.id = Integer.parseInt(json2.getString("id"));
+                item.name = json2.getString("name");
+                item.price = Integer.parseInt(json2.getString("price"));
+                item.type = json2.getString("type");
+                item.size = json2.getString("size").charAt(0);
+                item.description = json2.getString("description");
+
+                itemList.add(item);
+
+            }
+
+
+        } catch (Exception e) {
+            // TODO: handle exception
+        }
+
+        return sb.toString();
+    }//getJsonText()-----------
+
+    public String getStringFromUrl(String pUrl){
+
+        BufferedReader bufreader=null;
+        HttpURLConnection urlConnection = null;
+
+        StringBuffer page=new StringBuffer(); //읽어온 데이터를 저장할 StringBuffer객체 생성
+
+        try {
+
+            //[Type1]
+/*
+            HttpClient httpclient = new DefaultHttpClient();
+            HttpResponse response = httpclient.execute(new HttpGet(pUrl));
+            InputStream contentStream = response.getEntity().getContent();
+*/
+
+            //[Type2]
+            URL url= new URL(pUrl);
+            urlConnection = (HttpURLConnection) url.openConnection();
+            InputStream contentStream = urlConnection.getInputStream();
+
+            bufreader = new BufferedReader(new InputStreamReader(contentStream,"UTF-8"));
+            String line = null;
+
+            //버퍼의 웹문서 소스를 줄단위로 읽어(line), Page에 저장함
+            while((line = bufreader.readLine())!=null){
+                Log.d("line:", line);
+                page.append(line);
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }finally{
+            //자원해제
+            try {
+                bufreader.close();
+                urlConnection.disconnect();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }
+
+        return page.toString();
+    }// getStringFromUrl()-------------------------
 
 }

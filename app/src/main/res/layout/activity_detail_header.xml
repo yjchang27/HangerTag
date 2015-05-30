@@ -3,8 +3,12 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_width="fill_parent"
+    android:layout_height="match_parent"
+    android:paddingTop="0dp"
+    android:background="#FFFFFF"
+    android:gravity="center"
+    >
 
     <LinearLayout
         android:orientation="horizontal"
@@ -35,8 +39,18 @@
             android:layout_width="60dp"
             android:layout_height="60dp" />
 
-
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/tvItemName"
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:typeface="sans"
+        android:textStyle="bold"
+        android:textColor="#303030"
+        android:textSize="30sp"
+        />
 
     <ImageView
         android:id="@+id/ItemImage"
@@ -44,28 +58,31 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
-    <TextView
-        android:id="@+id/ItemDescription"
-        android:text="상품 설명"
-        android:layout_gravity="center"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content" />
 
     <Gallery
         android:id="@+id/ItemGallery"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:paddingBottom="20dp"
+         />
 
-    <Button
-        android:id="@+id/ItemGoBack"
-        android:text="뒤로"
+    <TextView
+        android:id="@+id/ItemDescription"
+        android:layout_gravity="center"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:typeface="sans"
+        android:textStyle="bold"
+        android:textColor="#303030"
+        android:textSize="18sp"
+        android:paddingBottom="20dp"
+        />
 
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:gravity="right">
 
         <EditText
             android:id="@+id/etReplyFill"
@@ -75,8 +92,12 @@
         <Button
             android:id="@+id/btReplySet"
             android:text="등록"
+            android:textColor="#FFFFFF"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:background="#004280"
+
+            />
 
     </LinearLayout>
 

@@ -25,11 +25,12 @@ public class SpecifyViewActivity extends Activity implements View.OnClickListene
                 Intent intent = new Intent(SpecifyViewActivity.this,DetailViewActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                 ItemSet itemSet = new ItemSet();
-                itemSet.description = "1번 상품이다";
                 itemSet.imageList.add(R.mipmap.blouson0);
                 itemSet.imageList.add(R.mipmap.blouson1);
                 itemSet.imageList.add(R.mipmap.blouson2);
+                int index = 0;
                 intent.putExtra("itemSet",itemSet);
+                intent.putExtra("index",index);
                 startActivity(intent);
             }
         });
@@ -40,11 +41,12 @@ public class SpecifyViewActivity extends Activity implements View.OnClickListene
                 Intent intent = new Intent(SpecifyViewActivity.this,DetailViewActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                 ItemSet itemSet = new ItemSet();
-                itemSet.description = "2번 상품이다";
                 itemSet.imageList.add(R.mipmap.coat0);
                 itemSet.imageList.add(R.mipmap.coat1);
                 itemSet.imageList.add(R.mipmap.coat2);
+                int index = 1;
                 intent.putExtra("itemSet",itemSet);
+                intent.putExtra("index",index);
                 startActivity(intent);
             }
         });
@@ -55,11 +57,12 @@ public class SpecifyViewActivity extends Activity implements View.OnClickListene
                 Intent intent = new Intent(SpecifyViewActivity.this,DetailViewActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                 ItemSet itemSet = new ItemSet();
-                itemSet.description = "3번 상품이다";
                 itemSet.imageList.add(R.mipmap.denim0);
                 itemSet.imageList.add(R.mipmap.denim1);
                 itemSet.imageList.add(R.mipmap.denim2);
+                int index = 2;
                 intent.putExtra("itemSet",itemSet);
+                intent.putExtra("index",index);
                 startActivity(intent);
             }
         });
@@ -74,7 +77,9 @@ public class SpecifyViewActivity extends Activity implements View.OnClickListene
                 //itemSet.imageList.add(R.mipmap.coat0);
                 //itemSet.imageList.add(R.mipmap.coat1);
                 //itemSet.imageList.add(R.mipmap.coat2);
+                int index = 3;
                 intent.putExtra("itemSet",itemSet);
+                intent.putExtra("index",index);
                 startActivity(intent);
             }
         });
