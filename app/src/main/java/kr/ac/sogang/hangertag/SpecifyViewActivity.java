@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 
 /**
  * Created by Kidsnow on 2015-04-12.
@@ -14,10 +15,20 @@ import android.widget.ImageButton;
 
 
 public class SpecifyViewActivity extends Activity implements View.OnClickListener{
+
+    String user_name=null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_specify_view);
+
+        ImageView topBar = (ImageView)findViewById(R.id.TopBar2);
+        topBar.setAdjustViewBounds(true);
+
+        Intent intent_from = getIntent();
+        if (intent_from != null){
+            user_name = (String)intent_from.getSerializableExtra("name");
+        }
 
         ImageButton btGoSpec1 = (ImageButton)findViewById(R.id.specification1);
         btGoSpec1.setOnClickListener(new View.OnClickListener() {
@@ -31,6 +42,7 @@ public class SpecifyViewActivity extends Activity implements View.OnClickListene
                 int index = 0;
                 intent.putExtra("itemSet",itemSet);
                 intent.putExtra("index",index);
+                intent.putExtra("name",user_name);
                 startActivity(intent);
             }
         });
@@ -47,6 +59,7 @@ public class SpecifyViewActivity extends Activity implements View.OnClickListene
                 int index = 1;
                 intent.putExtra("itemSet",itemSet);
                 intent.putExtra("index",index);
+                intent.putExtra("name",user_name);
                 startActivity(intent);
             }
         });
@@ -63,6 +76,7 @@ public class SpecifyViewActivity extends Activity implements View.OnClickListene
                 int index = 2;
                 intent.putExtra("itemSet",itemSet);
                 intent.putExtra("index",index);
+                intent.putExtra("name",user_name);
                 startActivity(intent);
             }
         });
@@ -80,6 +94,7 @@ public class SpecifyViewActivity extends Activity implements View.OnClickListene
                 int index = 3;
                 intent.putExtra("itemSet",itemSet);
                 intent.putExtra("index",index);
+                intent.putExtra("name",user_name);
                 startActivity(intent);
             }
         });

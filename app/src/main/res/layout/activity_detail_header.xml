@@ -86,7 +86,9 @@
 
         <EditText
             android:id="@+id/etReplyFill"
-            android:layout_width="100dp"
+            android:hint="댓글을 입력하세요..."
+            android:textColorHint="#808080"
+            android:layout_width="280dp"
             android:layout_height="wrap_content" />
 
         <Button

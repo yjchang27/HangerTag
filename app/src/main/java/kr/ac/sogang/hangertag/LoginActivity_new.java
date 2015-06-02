@@ -73,7 +73,7 @@ public class LoginActivity_new extends FragmentActivity implements LoaderCallbac
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
-
+    String id = null;
 
     //facebook sdk
     private static final String PERMISSION = "publish_actions";
@@ -519,6 +519,16 @@ public class LoginActivity_new extends FragmentActivity implements LoaderCallbac
         profileTracker.stopTracking();
     }
 
+    @Override
+    public void onBackPressed() {
+
+        Intent intent = new Intent();
+        intent.putExtra("id",id);
+
+        setResult(RESULT_OK,intent);
+        super.onBackPressed();
+    }
+
     private void updateUI() {
         boolean enableButtons = AccessToken.getCurrentAccessToken() != null;
 
@@ -526,7 +536,9 @@ public class LoginActivity_new extends FragmentActivity implements LoaderCallbac
         postPhotoButton.setEnabled(enableButtons || canPresentShareDialogWithPhotos);
 
         Profile profile = Profile.getCurrentProfile();
+
         if (enableButtons && profile != null) {
+            id = profile.getName();
             profilePictureView.setProfileId(profile.getId());
             greeting.setText(getString(R.string.hello_user, profile.getFirstName()));
         } else {

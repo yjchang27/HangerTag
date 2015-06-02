@@ -61,7 +61,7 @@ public class DetailViewActivity extends Activity implements View.OnClickListener
     int itemIndex;
     ItemSet itemThis;    // 현 페이지에 표시할 아이템
     ArrayList<ItemSet> itemList;
-
+    String user_name=null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,6 +88,7 @@ public class DetailViewActivity extends Activity implements View.OnClickListener
             itemSet = (ItemSet)intent.getSerializableExtra("itemSet");
             itemIndex = (int)intent.getSerializableExtra("index");
             images = itemSet.imageList;
+            user_name = (String)intent.getSerializableExtra("name");
         }
 
         new JsonLoadingTask().execute();
@@ -110,7 +111,7 @@ public class DetailViewActivity extends Activity implements View.OnClickListener
             public void onClick(View v) {
                 Reply temp = new Reply();
                 String upload;
-                temp.UserId = "testing";
+                temp.UserId = user_name;
                 temp.Content = replyFill.getText().toString();
                 replies.add(temp);
                 upload = "[{\"customer\":\"" + temp.UserId + "\",\"body\":\"" + temp.Content + "\"}]";
