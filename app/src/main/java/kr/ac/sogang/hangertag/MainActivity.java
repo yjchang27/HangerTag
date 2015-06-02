@@ -8,14 +8,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.Toast;
+import com.facebook.Profile;
 
 
 public class MainActivity extends FragmentActivity {
 
     String user_name = null;
+    Profile profile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,8 +45,6 @@ public class MainActivity extends FragmentActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         user_name = data.getStringExtra("id");
-
-        Toast.makeText(getApplicationContext(),"ID : " + user_name,Toast.LENGTH_LONG).show();
         super.onActivityResult(requestCode, resultCode, data);
     }
 

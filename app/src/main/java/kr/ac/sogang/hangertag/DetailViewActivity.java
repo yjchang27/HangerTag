@@ -5,7 +5,9 @@ package kr.ac.sogang.hangertag;
 import android.content.Context;
 import android.content.Intent;
 import android.app.Activity;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +20,9 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -26,20 +31,32 @@ import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.List;
 
+import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.protocol.HTTP;
+import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.apache.http.client.ClientProtocolException;
 
 import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
+
+import com.facebook.Profile;
 
 
 public class DetailViewActivity extends Activity implements View.OnClickListener {
@@ -62,6 +79,7 @@ public class DetailViewActivity extends Activity implements View.OnClickListener
     ItemSet itemThis;    // 현 페이지에 표시할 아이템
     ArrayList<ItemSet> itemList;
     String user_name=null;
+    int postItemId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,11 +88,14 @@ public class DetailViewActivity extends Activity implements View.OnClickListener
         topBar = (ImageView)findViewById(R.id.TopBar);
         topBar.setAdjustViewBounds(true);
         header = getLayoutInflater().inflate(R.layout.activity_detail_header,null,false);
-
         replyList = (ListView)findViewById(R.id.lvReply);
         final ReplyAdapter replyAdapter = new ReplyAdapter(this, R.layout.reply, replies);
         replyList.addHeaderView(header);
         replyList.setAdapter(replyAdapter);
+        if(Build.VERSION.SDK_INT > 9){
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(policy);
+        }
 
         itemName = (TextView)findViewById(R.id.tvItemName);
         itemDescription = (TextView)findViewById(R.id.ItemDescription);
@@ -107,15 +128,43 @@ public class DetailViewActivity extends Activity implements View.OnClickListener
         replyFill = (EditText)findViewById(R.id.etReplyFill);
         replySet = (Button)findViewById(R.id.btReplySet);
 
+
         replySet.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v) {
-                Reply temp = new Reply();
-                String upload;
-                temp.UserId = user_name;
-                temp.Content = replyFill.getText().toString();
-                replies.add(temp);
-                upload = "[{\"customer\":\"" + temp.UserId + "\",\"body\":\"" + temp.Content + "\"}]";
-                replyAdapter.notifyDataSetChanged();
+                if(user_name!=null) {
+
+                    Reply temp = new Reply();
+                    String upload;
+                    temp.UserId = user_name;
+                    temp.Content = replyFill.getText().toString();
+                    replies.add(temp);
+                    replyAdapter.notifyDataSetChanged();
+                    JSONObject jSon = new JSONObject();
+                    try {
+                        jSon.put("customer_id", "2");
+                        jSon.put("product_id",postItemId);
+                        jSon.put("body",temp.Content);
+                    } catch (JSONException e) {e.printStackTrace();}
+
+
+                    try{
+                        HttpClient client = new DefaultHttpClient();
+                        HttpPost post = new HttpPost("http://trn.iptime.org:3000/customer_comments.json");
+                        StringEntity ent = new StringEntity(jSon.toString());
+                        post.setEntity(ent);
+                        post.setHeader("Content-Type","application/json");
+                        HttpResponse httpResponse = client.execute(post);
+                        HttpEntity resEn = httpResponse.getEntity();
+
+                        if(resEn != null)
+                            Log.i("RESPONSE", EntityUtils.toString(resEn));
+                    }
+                    catch (UnsupportedEncodingException e) {e.printStackTrace();}
+                    catch (ClientProtocolException e) {e.printStackTrace();}
+                    catch (IOException e) {e.printStackTrace();}
+
+
+                }
             }
         });
 
@@ -216,6 +265,7 @@ public class DetailViewActivity extends Activity implements View.OnClickListener
             int index = 0;
             intent.putExtra("itemSet",itemSet);
             intent.putExtra("index",index);
+            intent.putExtra("name",user_name);
         }
         if(v.getId()==R.id.ibDetail2) {
             itemSet.imageList.add(R.mipmap.coat0);
@@ -225,6 +275,7 @@ public class DetailViewActivity extends Activity implements View.OnClickListener
             int index = 1;
             intent.putExtra("itemSet",itemSet);
             intent.putExtra("index",index);
+            intent.putExtra("name",user_name);
         }
         if(v.getId()==R.id.ibDetail3) {
             itemSet.imageList.add(R.mipmap.denim0);
@@ -234,6 +285,7 @@ public class DetailViewActivity extends Activity implements View.OnClickListener
             int index = 2;
             intent.putExtra("itemSet",itemSet);
             intent.putExtra("index",index);
+            intent.putExtra("name",user_name);
         }
         startActivity(intent);
 
@@ -253,7 +305,7 @@ public class DetailViewActivity extends Activity implements View.OnClickListener
         @Override
         protected void onPostExecute(String result) {
             itemThis = itemList.get(itemIndex);
-
+            postItemId = itemThis.id;
             result = "가격 : " + itemThis.price +
                     "\n종류 : " + itemThis.type +
                     "\n사이즈 : " + itemThis.size +

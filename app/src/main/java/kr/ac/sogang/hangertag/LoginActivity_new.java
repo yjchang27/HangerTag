@@ -524,7 +524,6 @@ public class LoginActivity_new extends FragmentActivity implements LoaderCallbac
 
         Intent intent = new Intent();
         intent.putExtra("id",id);
-
         setResult(RESULT_OK,intent);
         super.onBackPressed();
     }
