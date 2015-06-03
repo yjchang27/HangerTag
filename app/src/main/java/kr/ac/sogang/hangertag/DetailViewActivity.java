@@ -75,6 +75,7 @@ public class DetailViewActivity extends Activity implements View.OnClickListener
     Button replySet;
     ArrayList<Reply> replies = new ArrayList<>();   // 댓글 리스트.
     ListView replyList;
+    ReplyAdapter replyAdapter;
     int itemIndex;
     ItemSet itemThis;    // 현 페이지에 표시할 아이템
     ArrayList<ItemSet> itemList;
@@ -89,7 +90,7 @@ public class DetailViewActivity extends Activity implements View.OnClickListener
         topBar.setAdjustViewBounds(true);
         header = getLayoutInflater().inflate(R.layout.activity_detail_header,null,false);
         replyList = (ListView)findViewById(R.id.lvReply);
-        final ReplyAdapter replyAdapter = new ReplyAdapter(this, R.layout.reply, replies);
+        replyAdapter = new ReplyAdapter(this, R.layout.reply, replies);
         replyList.addHeaderView(header);
         replyList.setAdapter(replyAdapter);
         if(Build.VERSION.SDK_INT > 9){
@@ -318,18 +319,21 @@ public class DetailViewActivity extends Activity implements View.OnClickListener
     public String getJsonText() {
 
         String jsonPage;
+        String jsonPageComment;
         StringBuilder sb = new StringBuilder();
         try {
 
             //주어진 URL 문서의 내용을 문자열로 얻는다.
             jsonPage = getStringFromUrl("http://trn.iptime.org:3000/products.json");
-
+            jsonPageComment = getStringFromUrl("http://trn.iptime.org:3000/customer_comments.json");
 
             //읽어들인 JSON포맷의 데이터를 JSON객체로 변환
             JSONObject json = new JSONObject(jsonPage);
+            JSONObject jsonComment = new JSONObject(jsonPageComment);
 
             //list의 값은 배열로 구성 되어있으므로 JSON 배열생성
             JSONArray jArr = json.getJSONArray("products");
+            JSONArray jArrComment = jsonComment.getJSONArray("customer_comments");
 
             //배열의 크기만큼 반복하면서, ksNo과 korName의 값을 추출함
             for (int i=0; i<jArr.length(); i++){
@@ -351,6 +355,28 @@ public class DetailViewActivity extends Activity implements View.OnClickListener
                 item.description = json2.getString("description");
 
                 itemList.add(item);
+
+            }
+
+            for (int i=0; i<jArrComment.length(); i++){
+
+                //i번째 배열 할당
+                jsonComment = jArrComment.getJSONObject(i);
+                String string = jsonComment.getString("customer_comment");
+                string.substring(20);
+                JSONObject json2 = new JSONObject(string);
+
+                if(Integer.parseInt(json2.getString("product_id"))!=postItemId)
+                    break;
+
+                else {
+                    Reply reply = new Reply();
+                    reply.UserId = json2.getString("customer_id");
+                    reply.Content = json2.getString("body");
+                    replies.add(reply);
+                    replyAdapter.notifyDataSetChanged();
+                }
+
 
             }
 
