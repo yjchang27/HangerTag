@@ -366,8 +366,8 @@ public class DetailViewActivity extends Activity implements View.OnClickListener
                 string.substring(20);
                 JSONObject json2 = new JSONObject(string);
 
-                if(Integer.parseInt(json2.getString("product_id"))!=postItemId)
-                    break;
+                if(Integer.parseInt(json2.getString("product_id"))!=itemIndex)
+                    continue;
 
                 else {
                     Reply reply = new Reply();
