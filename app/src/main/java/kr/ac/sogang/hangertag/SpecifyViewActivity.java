@@ -39,7 +39,7 @@ public class SpecifyViewActivity extends Activity implements View.OnClickListene
                 itemSet.imageList.add(R.mipmap.blouson0);
                 itemSet.imageList.add(R.mipmap.blouson1);
                 itemSet.imageList.add(R.mipmap.blouson2);
-                int index = 0;
+                int index = 1;
                 intent.putExtra("itemSet",itemSet);
                 intent.putExtra("index",index);
                 intent.putExtra("name",user_name);
@@ -56,7 +56,7 @@ public class SpecifyViewActivity extends Activity implements View.OnClickListene
                 itemSet.imageList.add(R.mipmap.coat0);
                 itemSet.imageList.add(R.mipmap.coat1);
                 itemSet.imageList.add(R.mipmap.coat2);
-                int index = 1;
+                int index = 2;
                 intent.putExtra("itemSet",itemSet);
                 intent.putExtra("index",index);
                 intent.putExtra("name",user_name);
@@ -73,7 +73,7 @@ public class SpecifyViewActivity extends Activity implements View.OnClickListene
                 itemSet.imageList.add(R.mipmap.denim0);
                 itemSet.imageList.add(R.mipmap.denim1);
                 itemSet.imageList.add(R.mipmap.denim2);
-                int index = 2;
+                int index = 3;
                 intent.putExtra("itemSet",itemSet);
                 intent.putExtra("index",index);
                 intent.putExtra("name",user_name);
@@ -91,7 +91,7 @@ public class SpecifyViewActivity extends Activity implements View.OnClickListene
                 //itemSet.imageList.add(R.mipmap.coat0);
                 //itemSet.imageList.add(R.mipmap.coat1);
                 //itemSet.imageList.add(R.mipmap.coat2);
-                int index = 3;
+                int index = 4;
                 intent.putExtra("itemSet",itemSet);
                 intent.putExtra("index",index);
                 intent.putExtra("name",user_name);

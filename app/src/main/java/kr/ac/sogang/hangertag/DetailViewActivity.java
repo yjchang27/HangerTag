@@ -81,6 +81,7 @@ public class DetailViewActivity extends Activity implements View.OnClickListener
     ArrayList<ItemSet> itemList;
     String user_name=null;
     int postItemId;
+    String jsonPageComment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -135,7 +136,6 @@ public class DetailViewActivity extends Activity implements View.OnClickListener
                 if(user_name!=null) {
 
                     Reply temp = new Reply();
-                    String upload;
                     temp.UserId = user_name;
                     temp.Content = replyFill.getText().toString();
                     replies.add(temp);
@@ -151,7 +151,7 @@ public class DetailViewActivity extends Activity implements View.OnClickListener
                     try{
                         HttpClient client = new DefaultHttpClient();
                         HttpPost post = new HttpPost("http://trn.iptime.org:3000/customer_comments.json");
-                        StringEntity ent = new StringEntity(jSon.toString());
+                        StringEntity ent = new StringEntity(jSon.toString(),"UTF-8");
                         post.setEntity(ent);
                         post.setHeader("Content-Type","application/json");
                         HttpResponse httpResponse = client.execute(post);
@@ -181,6 +181,8 @@ public class DetailViewActivity extends Activity implements View.OnClickListener
 
             }
         });
+
+
     }
 
     class GalleryAdapter extends BaseAdapter {
@@ -219,7 +221,7 @@ public class DetailViewActivity extends Activity implements View.OnClickListener
             return image;
         }
 
-    }
+    } // 갤러리 어댑터
 
     class ReplyAdapter extends BaseAdapter {
 
@@ -252,7 +254,7 @@ public class DetailViewActivity extends Activity implements View.OnClickListener
 
             return convertView;
         }
-    }
+    } // 댓글 어댑터
 
     public void onClick(View v){
         Intent intent = new Intent(DetailViewActivity.this,DetailViewActivity.class);
@@ -263,7 +265,7 @@ public class DetailViewActivity extends Activity implements View.OnClickListener
             itemSet.imageList.add(R.mipmap.blouson1);
             itemSet.imageList.add(R.mipmap.blouson2);
             itemSet.imageList.add(R.mipmap.blouson3);
-            int index = 0;
+            int index = 1;
             intent.putExtra("itemSet",itemSet);
             intent.putExtra("index",index);
             intent.putExtra("name",user_name);
@@ -273,7 +275,7 @@ public class DetailViewActivity extends Activity implements View.OnClickListener
             itemSet.imageList.add(R.mipmap.coat1);
             itemSet.imageList.add(R.mipmap.coat2);
             itemSet.imageList.add(R.mipmap.coat2);
-            int index = 1;
+            int index = 2;
             intent.putExtra("itemSet",itemSet);
             intent.putExtra("index",index);
             intent.putExtra("name",user_name);
@@ -283,20 +285,20 @@ public class DetailViewActivity extends Activity implements View.OnClickListener
             itemSet.imageList.add(R.mipmap.denim1);
             itemSet.imageList.add(R.mipmap.denim2);
             itemSet.imageList.add(R.mipmap.denim3);
-            int index = 2;
+            int index = 3;
             intent.putExtra("itemSet",itemSet);
             intent.putExtra("index",index);
             intent.putExtra("name",user_name);
         }
         startActivity(intent);
 
-    }
+    } // 다른 상품 이미지 버튼 리스너
 
     public void onBackPressed() {
         Intent intent = new Intent(DetailViewActivity.this, SpecifyViewActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
         startActivity(intent);
-    }
+    } // 뒤로
 
     private class JsonLoadingTask extends AsyncTask<String, Void, String> {
         @Override
@@ -305,7 +307,7 @@ public class DetailViewActivity extends Activity implements View.OnClickListener
         } // doInBackground : 백그라운드 작업을 진행한다.
         @Override
         protected void onPostExecute(String result) {
-            itemThis = itemList.get(itemIndex);
+            itemThis = itemList.get(itemIndex-1);
             postItemId = itemThis.id;
             result = "가격 : " + itemThis.price +
                     "\n종류 : " + itemThis.type +
@@ -313,13 +315,14 @@ public class DetailViewActivity extends Activity implements View.OnClickListener
                     "\n상세설명 : " + itemThis.description;
             itemName.setText(itemThis.name);
             itemDescription.setText(result);
+            getJSONComments(jsonPageComment);
         } // onPostExecute : 백그라운드 작업이 끝난 후 UI 작업을 진행한다.
     } // JsonLoadingTask
 
     public String getJsonText() {
 
         String jsonPage;
-        String jsonPageComment;
+
         StringBuilder sb = new StringBuilder();
         try {
 
@@ -329,11 +332,11 @@ public class DetailViewActivity extends Activity implements View.OnClickListener
 
             //읽어들인 JSON포맷의 데이터를 JSON객체로 변환
             JSONObject json = new JSONObject(jsonPage);
-            JSONObject jsonComment = new JSONObject(jsonPageComment);
+
 
             //list의 값은 배열로 구성 되어있으므로 JSON 배열생성
             JSONArray jArr = json.getJSONArray("products");
-            JSONArray jArrComment = jsonComment.getJSONArray("customer_comments");
+
 
             //배열의 크기만큼 반복하면서, ksNo과 korName의 값을 추출함
             for (int i=0; i<jArr.length(); i++){
@@ -358,31 +361,9 @@ public class DetailViewActivity extends Activity implements View.OnClickListener
 
             }
 
-            for (int i=0; i<jArrComment.length(); i++){
-
-                //i번째 배열 할당
-                jsonComment = jArrComment.getJSONObject(i);
-                String string = jsonComment.getString("customer_comment");
-                string.substring(20);
-                JSONObject json2 = new JSONObject(string);
-
-                if(Integer.parseInt(json2.getString("product_id"))!=itemIndex)
-                    continue;
-
-                else {
-                    Reply reply = new Reply();
-                    reply.UserId = json2.getString("customer_id");
-                    reply.Content = json2.getString("body");
-                    replies.add(reply);
-                    replyAdapter.notifyDataSetChanged();
-                }
-
-
-            }
-
-
         } catch (Exception e) {
             // TODO: handle exception
+            e.printStackTrace();
         }
 
         return sb.toString();
@@ -433,5 +414,30 @@ public class DetailViewActivity extends Activity implements View.OnClickListener
 
         return page.toString();
     }// getStringFromUrl()-------------------------
+
+    public void getJSONComments(String jPC) {
+        try {
+            JSONObject jsonComment = new JSONObject(jPC);
+            JSONArray jArrComment = jsonComment.getJSONArray("customer_comments");
+            for (int i = 0; i < jArrComment.length(); i++) {
+
+                //i번째 배열 할당
+                jsonComment = jArrComment.getJSONObject(i);
+                String string = jsonComment.getString("customer_comment");
+                string.substring(20);
+                JSONObject json2 = new JSONObject(string);
+                int j = Integer.parseInt(json2.getString("product_id"));
+
+                if (j == itemIndex) {
+                    Reply reply = new Reply();
+                    reply.UserId = json2.getString("customer_id");
+                    reply.Content = json2.getString("body");
+                    replies.add(reply);
+                    replyAdapter.notifyDataSetChanged();
+                }
+
+            }
+        } catch (JSONException e){e.printStackTrace(); }
+    } // 기 댓글 등록
 
 }
