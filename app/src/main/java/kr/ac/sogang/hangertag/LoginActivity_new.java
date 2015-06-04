@@ -535,7 +535,6 @@ public class LoginActivity_new extends FragmentActivity implements LoaderCallbac
         postPhotoButton.setEnabled(enableButtons || canPresentShareDialogWithPhotos);
 
         Profile profile = Profile.getCurrentProfile();
-
         if (enableButtons && profile != null) {
             id = profile.getName();
             profilePictureView.setProfileId(profile.getId());

@@ -42,7 +42,6 @@
         </activity>
 
         <activity android:name=".SpecifyViewActivity"/>
-        <activity android:name=".NetworkTestActivity"/>
 
         <meta-data
             android:name="com.google.android.gms.version"

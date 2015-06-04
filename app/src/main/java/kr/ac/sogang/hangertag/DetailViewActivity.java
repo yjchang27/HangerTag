@@ -442,9 +442,9 @@ public class DetailViewActivity extends Activity implements View.OnClickListener
     public void postView(){
         JSONObject jSon = new JSONObject();
         try {
-            jSon.put("customer_id", "2");
-            jSon.put("product_id",postItemId);
-            jSon.put("point","1");
+            jSon.put("Customer_id", "2");
+            jSon.put("Product_id",postItemId);
+            jSon.put("Point","1");
         } catch (JSONException e) {e.printStackTrace();}
 
 
