@@ -316,6 +316,7 @@ public class DetailViewActivity extends Activity implements View.OnClickListener
             itemName.setText(itemThis.name);
             itemDescription.setText(result);
             getJSONComments(jsonPageComment);
+            postView();
         } // onPostExecute : 백그라운드 작업이 끝난 후 UI 작업을 진행한다.
     } // JsonLoadingTask
 
@@ -347,8 +348,6 @@ public class DetailViewActivity extends Activity implements View.OnClickListener
                 String string = json.getString("product");
                 string.substring(11);
                 JSONObject json2 = new JSONObject(string);
-                // jArr = json.getJSONArray("product");
-                // json = jArr.getJSONObject(0);
 
                 item.id = Integer.parseInt(json2.getString("id"));
                 item.name = json2.getString("name");
@@ -439,5 +438,31 @@ public class DetailViewActivity extends Activity implements View.OnClickListener
             }
         } catch (JSONException e){e.printStackTrace(); }
     } // 기 댓글 등록
+
+    public void postView(){
+        JSONObject jSon = new JSONObject();
+        try {
+            jSon.put("customer_id", "2");
+            jSon.put("product_id",postItemId);
+            jSon.put("point","1");
+        } catch (JSONException e) {e.printStackTrace();}
+
+
+        try{
+            HttpClient client = new DefaultHttpClient();
+            HttpPost post = new HttpPost("http://trn.iptime.org:3000/views.json");
+            StringEntity ent = new StringEntity(jSon.toString(),"UTF-8");
+            post.setEntity(ent);
+            post.setHeader("Content-Type","application/json");
+            HttpResponse httpResponse = client.execute(post);
+            HttpEntity resEn = httpResponse.getEntity();
+
+            if(resEn != null)
+                Log.i("RESPONSE", EntityUtils.toString(resEn));
+        }
+        catch (UnsupportedEncodingException e) {e.printStackTrace();}
+        catch (ClientProtocolException e) {e.printStackTrace();}
+        catch (IOException e) {e.printStackTrace();}
+    }
 
 }
