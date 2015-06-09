@@ -8,31 +8,38 @@
         android:layout_height="match_parent"
         android:layout_gravity="center_horizontal"
         android:orientation="horizontal">
-        <TableRow>
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="1">
             <ImageButton
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 android:layout_weight="1"
-                android:id="@+id/specification1"
-                android:src="@mipmap/blouson0"/>
+                android:background="#ffffff"
+                android:id="@+id/specification1"/>
             <ImageButton
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 android:layout_weight="1"
-                android:id="@+id/specification2"
-                android:src="@mipmap/coat0"/>
+                android:background="#ffffff"
+                android:id="@+id/specification2"/>
         </TableRow>
-        <TableRow>
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="1">
             <ImageButton
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 android:layout_weight="1"
-                android:id="@+id/specification3"
-                android:src="@mipmap/denim0"/>
+                android:background="#ffffff"
+                android:id="@+id/specification3"/>
             <ImageButton
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 android:layout_weight="1"
+                android:background="#ffffff"
                 android:id="@+id/specification4"/>
         </TableRow>
     </TableLayout>
