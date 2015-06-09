@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 
 import org.altbeacon.beacon.BeaconManager;
 import org.altbeacon.beacon.BeaconParser;
@@ -28,6 +29,8 @@ public class SpecifyViewActivity extends Activity implements View.OnClickListene
     private boolean haveDetectedBeaconsSinceBoot = false;
     private SpecifyViewActivity specifyViewActivity = null;
 
+
+    String user_name=null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,18 +46,27 @@ public class SpecifyViewActivity extends Activity implements View.OnClickListene
         btGoSpec3.setBackgroundResource(R.mipmap.white);
         ImageButton btGoSpec4 = (ImageButton)findViewById(R.id.specification4);
         btGoSpec4.setBackgroundResource(R.mipmap.white);
-        /*
+        ImageView topBar = (ImageView)findViewById(R.id.TopBar2);
+        topBar.setAdjustViewBounds(true);
+
+        Intent intent_from = getIntent();
+        if (intent_from != null){
+            user_name = (String)intent_from.getSerializableExtra("name");
+        }
+
         ImageButton btGoSpec1 = (ImageButton)findViewById(R.id.specification1);
         btGoSpec1.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent = new Intent(SpecifyViewActivity.this,DetailViewActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                 ItemSet itemSet = new ItemSet();
-                itemSet.description = "1번 상품이다";
                 itemSet.imageList.add(R.mipmap.blouson0);
                 itemSet.imageList.add(R.mipmap.blouson1);
                 itemSet.imageList.add(R.mipmap.blouson2);
+                int index = 1;
                 intent.putExtra("itemSet",itemSet);
+                intent.putExtra("index",index);
+                intent.putExtra("name",user_name);
                 startActivity(intent);
             }
         });
@@ -65,11 +77,13 @@ public class SpecifyViewActivity extends Activity implements View.OnClickListene
                 Intent intent = new Intent(SpecifyViewActivity.this, DetailViewActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                 ItemSet itemSet = new ItemSet();
-                itemSet.description = "2번 상품이다";
                 itemSet.imageList.add(R.mipmap.coat0);
                 itemSet.imageList.add(R.mipmap.coat1);
                 itemSet.imageList.add(R.mipmap.coat2);
-                intent.putExtra("itemSet", itemSet);
+                int index = 2;
+                intent.putExtra("itemSet",itemSet);
+                intent.putExtra("index",index);
+                intent.putExtra("name",user_name);
                 startActivity(intent);
             }
         });
@@ -80,11 +94,13 @@ public class SpecifyViewActivity extends Activity implements View.OnClickListene
                 Intent intent = new Intent(SpecifyViewActivity.this, DetailViewActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                 ItemSet itemSet = new ItemSet();
-                itemSet.description = "3번 상품이다";
                 itemSet.imageList.add(R.mipmap.denim0);
                 itemSet.imageList.add(R.mipmap.denim1);
                 itemSet.imageList.add(R.mipmap.denim2);
-                intent.putExtra("itemSet", itemSet);
+                int index = 3;
+                intent.putExtra("itemSet",itemSet);
+                intent.putExtra("index",index);
+                intent.putExtra("name",user_name);
                 startActivity(intent);
             }
         });
@@ -99,7 +115,10 @@ public class SpecifyViewActivity extends Activity implements View.OnClickListene
                 //itemSet.imageList.add(R.mipmap.coat0);
                 //itemSet.imageList.add(R.mipmap.coat1);
                 //itemSet.imageList.add(R.mipmap.coat2);
-                intent.putExtra("itemSet", itemSet);
+                int index = 4;
+                intent.putExtra("itemSet",itemSet);
+                intent.putExtra("index",index);
+                intent.putExtra("name",user_name);
                 startActivity(intent);
             }
         });*/

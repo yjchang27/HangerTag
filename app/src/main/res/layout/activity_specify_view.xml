@@ -8,10 +8,17 @@
         android:layout_height="match_parent"
         android:layout_gravity="center_horizontal"
         android:orientation="horizontal">
-        <TableRow
+
+        <ImageView
+            android:id="@+id/TopBar2"
+            android:layout_gravity="center"
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_weight="1">
+            android:layout_height="wrap_content"
+            android:src="@mipmap/topbar"
+            android:layout_marginTop="0dp"
+            />
+
+        <TableRow android:layout_weight="1">
             <ImageButton
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
@@ -25,10 +32,8 @@
                 android:background="#ffffff"
                 android:id="@+id/specification2"/>
         </TableRow>
-        <TableRow
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_weight="1">
+
+        <TableRow android:layout_weight="1">
             <ImageButton
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
@@ -42,5 +47,6 @@
                 android:background="#ffffff"
                 android:id="@+id/specification4"/>
         </TableRow>
+
     </TableLayout>
 </LinearLayout>

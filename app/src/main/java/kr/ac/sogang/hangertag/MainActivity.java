@@ -8,13 +8,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
+import com.facebook.Profile;
 
 
 public class MainActivity extends FragmentActivity {
 
-
+    String user_name = null;
+    Profile profile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,7 +26,7 @@ public class MainActivity extends FragmentActivity {
         Button btGoLogin = (Button)findViewById(R.id.btGoLogin);
         btGoLogin.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, LoginActivity_new.class));
+                startActivityForResult(new Intent(MainActivity.this, LoginActivity_new.class), 201);
             }
         });
 
@@ -34,12 +34,19 @@ public class MainActivity extends FragmentActivity {
         btGoSpecify.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, SpecifyViewActivity.class);
+                intent.putExtra("name",user_name);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                 startActivity(intent);
             }
         });
+
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        user_name = data.getStringExtra("id");
+        super.onActivityResult(requestCode, resultCode, data);
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
