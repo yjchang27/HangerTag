@@ -11,7 +11,7 @@ public class ItemSet implements Serializable{
     String name;
     int price;
     String type;
-    String size;
+    char size;
     String description;
     ArrayList<Integer> imageList;
 

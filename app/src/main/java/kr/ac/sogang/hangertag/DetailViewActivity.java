@@ -294,7 +294,7 @@ public class DetailViewActivity extends Activity implements View.OnClickListener
                 item.name = json2.getString("name");
                 item.price = Integer.parseInt(json2.getString("price"));
                 item.type = json2.getString("type");
-                item.size = json2.getString("size");
+                item.size = json2.getString("size").charAt(0);
                 item.description = json2.getString("description");
 
                 itemList.add(item);

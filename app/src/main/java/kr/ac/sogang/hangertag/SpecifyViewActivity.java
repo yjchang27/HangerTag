@@ -7,7 +7,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 
 /**
  * Created by Kidsnow on 2015-04-12.
@@ -15,15 +14,10 @@ import android.widget.ImageView;
 
 
 public class SpecifyViewActivity extends Activity implements View.OnClickListener{
-
-    ImageView topBar;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_specify_view);
-        topBar = (ImageView)findViewById(R.id.TopBar);
-        topBar.setAdjustViewBounds(true);
 
         ImageButton btGoSpec1 = (ImageButton)findViewById(R.id.specification1);
         btGoSpec1.setOnClickListener(new View.OnClickListener() {
