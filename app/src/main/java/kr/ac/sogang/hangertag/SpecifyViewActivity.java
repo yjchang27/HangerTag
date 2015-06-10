@@ -23,6 +23,7 @@ import org.altbeacon.beacon.startup.RegionBootstrap;
 
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.ArrayList;
 
 /**
  * Created by Kidsnow on 2015-04-12.
@@ -37,22 +38,31 @@ public class SpecifyViewActivity extends Activity implements View.OnClickListene
     private boolean haveDetectedBeaconsSinceBoot = false;
     private SpecifyViewActivity specifyViewActivity = null;
 
+    ArrayList<String> uid = new ArrayList<>();
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_specify_view);
+        uid.add("NULL");
+        uid.add("NULL");
+        uid.add("NULL");
 
         verifyBluetooth();
 
-        ImageButton btGoSpec1 = (ImageButton)findViewById(R.id.specification1);
-        btGoSpec1.setBackgroundResource(R.mipmap.blouson0);
-        ImageButton btGoSpec2 = (ImageButton)findViewById(R.id.specification2);
-        btGoSpec2.setBackgroundResource(R.mipmap.white);
-        ImageButton btGoSpec3 = (ImageButton)findViewById(R.id.specification3);
-        btGoSpec3.setBackgroundResource(R.mipmap.white);
-        ImageButton btGoSpec4 = (ImageButton)findViewById(R.id.specification4);
-        btGoSpec4.setBackgroundResource(R.mipmap.white);
-        /*
+        Button btGoSpec1 = (Button)findViewById(R.id.specification1);
+        btGoSpec1.setText(uid.get(0));
+        //btGoSpec1.setBackgroundResource(R.mipmap.blouson0);
+        Button btGoSpec2 = (Button)findViewById(R.id.specification2);
+        btGoSpec2.setText(uid.get(1));
+        //btGoSpec2.setBackgroundResource(R.mipmap.white);
+        Button btGoSpec3 = (Button)findViewById(R.id.specification3);
+        btGoSpec3.setText(uid.get(2));
+        //btGoSpec3.setBackgroundResource(R.mipmap.white);
+        Button btGoSpec4 = (Button)findViewById(R.id.specification4);
+        //btGoSpec4.setBackgroundResource(R.mipmap.white);
+/*
         ImageButton btGoSpec1 = (ImageButton)findViewById(R.id.specification1);
         btGoSpec1.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -188,18 +198,40 @@ public class SpecifyViewActivity extends Activity implements View.OnClickListene
 
     @Override
     public void onBeaconServiceConnect() {
+        final ArrayList<Integer> isAlive = new ArrayList<>();
+        isAlive.add(0);
+        isAlive.add(0);
+        isAlive.add(0);
         beaconManager.setRangeNotifier(new RangeNotifier() {
             @Override
             public void didRangeBeaconsInRegion(Collection<Beacon> beacons, Region region) {
+                final ArrayList<String> reArr = new ArrayList<>();
                 if (beacons.size() > 0) {
                     Iterator itr = beacons.iterator();
-                    EditText editText = (EditText) SpecifyViewActivity.this
-                            .findViewById(R.id.rangingText);
+
                     for (int i = 0; i < beacons.size(); i ++) {
                         Beacon beacon = (Beacon)itr.next();
-                        logToDisplay((i+1) + "번째" + beacon.getId3() + " is about " + beacon.getDistance() + " meters away.");
+                        checkId(beacon.getId3().toString(), isAlive);
+                    }
+                    for(int i = 0; i < 3; i++) {
+                        if (isAlive.get(i)!=0)
+                            reArr.add(uid.get(i));
+                        isAlive.set(i,0);
+                    }
+                    //reArrange
+                    for(int i = 0; i < reArr.size(); i++){
+                        uid.set(i, reArr.get(i));
+                    }
+                    for(int i = reArr.size(); i < 3; i++){
+                        uid.set(i, "NULL");
                     }
                 }
+                else{
+                    for(int i = 0; i < 3; i++)
+                        uid.set(i, "NULL");
+                }
+                ToDisplay();
+
             }
 
         });
@@ -209,13 +241,47 @@ public class SpecifyViewActivity extends Activity implements View.OnClickListene
         } catch (RemoteException e) {   }
     }
 
-    private void logToDisplay(final String line) {
+    private void ToDisplay() {
         runOnUiThread(new Runnable() {
             public void run() {
-                EditText editText = (EditText) SpecifyViewActivity.this
-                        .findViewById(R.id.rangingText);
-                editText.append(line + "\n");
+                Button bt1 = (Button)findViewById(R.id.specification1);
+                bt1.setText(uid.get(0));
+                Button bt2 = (Button)findViewById(R.id.specification2);
+                bt2.setText(uid.get(1));
+                Button bt3 = (Button)findViewById(R.id.specification3);
+                bt3.setText(uid.get(2));
             }
         });
     }
+
+    public void checkId(String id, ArrayList<Integer> isA){
+
+        int isExistFlag = 0;
+
+        for (int i = 0 ; i < 3 ; i++)
+        {
+            if(uid.get(i)==id) {
+                isA.set(i, 1);
+                isExistFlag = 1;
+                break;
+            }
+
+        }
+        if(isExistFlag==0) {
+            for (int i = 0; i < 3; i++) {
+                if (uid.get(i) == "NULL") {
+                    uid.set(i, id);
+                    isA.set(i, 1);
+                    break;
+                }
+
+            }
+        }
+
+    }
+
+
+
+
 }
+
