@@ -5,23 +5,32 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.RemoteException;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 
+import org.altbeacon.beacon.Beacon;
+import org.altbeacon.beacon.BeaconConsumer;
 import org.altbeacon.beacon.BeaconManager;
 import org.altbeacon.beacon.BeaconParser;
+import org.altbeacon.beacon.RangeNotifier;
 import org.altbeacon.beacon.Region;
 import org.altbeacon.beacon.powersave.BackgroundPowerSaver;
 import org.altbeacon.beacon.startup.RegionBootstrap;
+
+import java.util.Collection;
+import java.util.Iterator;
 
 /**
  * Created by Kidsnow on 2015-04-12.
  */
 
 
-public class SpecifyViewActivity extends Activity implements View.OnClickListener{
+public class SpecifyViewActivity extends Activity implements View.OnClickListener, BeaconConsumer {
+    private BeaconManager beaconManager = BeaconManager.getInstanceForApplication(this);
     private static final String TAG = "AndroidProximityReferenceApplication";
     private RegionBootstrap regionBootstrap;
     private BackgroundPowerSaver backgroundPowerSaver;
@@ -103,6 +112,8 @@ public class SpecifyViewActivity extends Activity implements View.OnClickListene
                 startActivity(intent);
             }
         });*/
+
+        beaconManager.bind(this);
     }
 
     @Override
@@ -157,5 +168,54 @@ public class SpecifyViewActivity extends Activity implements View.OnClickListene
             builder.show();
 
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        beaconManager.unbind(this);
+    }
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (beaconManager.isBound(this)) beaconManager.setBackgroundMode(true);
+    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (beaconManager.isBound(this)) beaconManager.setBackgroundMode(false);
+    }
+
+    @Override
+    public void onBeaconServiceConnect() {
+        beaconManager.setRangeNotifier(new RangeNotifier() {
+            @Override
+            public void didRangeBeaconsInRegion(Collection<Beacon> beacons, Region region) {
+                if (beacons.size() > 0) {
+                    Iterator itr = beacons.iterator();
+                    EditText editText = (EditText) SpecifyViewActivity.this
+                            .findViewById(R.id.rangingText);
+                    for (int i = 0; i < beacons.size(); i ++) {
+                        Beacon beacon = (Beacon)itr.next();
+                        logToDisplay((i+1) + "번째" + beacon.getId3() + " is about " + beacon.getDistance() + " meters away.");
+                    }
+                }
+            }
+
+        });
+
+        try {
+            beaconManager.startRangingBeaconsInRegion(new Region("myRangingUniqueId", null, null, null));
+        } catch (RemoteException e) {   }
+    }
+
+    private void logToDisplay(final String line) {
+        runOnUiThread(new Runnable() {
+            public void run() {
+                EditText editText = (EditText) SpecifyViewActivity.this
+                        .findViewById(R.id.rangingText);
+                editText.append(line + "\n");
+            }
+        });
     }
 }
