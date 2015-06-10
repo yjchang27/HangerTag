@@ -3,22 +3,28 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <EditText
+        android:id="@+id/rangingText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:ems="10"
+        android:gravity="left|top"
+        android:inputType="textMultiLine" >
+
+    </EditText>
+
     <TableLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center_horizontal"
         android:orientation="horizontal">
-
-        <ImageView
-            android:id="@+id/TopBar2"
-            android:layout_gravity="center"
+        <TableRow
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:src="@mipmap/topbar"
-            android:layout_marginTop="0dp"
-            />
-
-        <TableRow android:layout_weight="1">
+            android:layout_height="fill_parent"
+            android:layout_weight="1">
             <ImageButton
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
@@ -32,8 +38,10 @@
                 android:background="#ffffff"
                 android:id="@+id/specification2"/>
         </TableRow>
-
-        <TableRow android:layout_weight="1">
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="1">
             <ImageButton
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
@@ -47,6 +55,5 @@
                 android:background="#ffffff"
                 android:id="@+id/specification4"/>
         </TableRow>
-
     </TableLayout>
 </LinearLayout>

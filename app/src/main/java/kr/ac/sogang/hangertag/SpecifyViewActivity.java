@@ -5,32 +5,38 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.RemoteException;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 
+import org.altbeacon.beacon.Beacon;
+import org.altbeacon.beacon.BeaconConsumer;
 import org.altbeacon.beacon.BeaconManager;
 import org.altbeacon.beacon.BeaconParser;
+import org.altbeacon.beacon.RangeNotifier;
 import org.altbeacon.beacon.Region;
 import org.altbeacon.beacon.powersave.BackgroundPowerSaver;
 import org.altbeacon.beacon.startup.RegionBootstrap;
+
+import java.util.Collection;
+import java.util.Iterator;
 
 /**
  * Created by Kidsnow on 2015-04-12.
  */
 
 
-public class SpecifyViewActivity extends Activity implements View.OnClickListener{
+public class SpecifyViewActivity extends Activity implements View.OnClickListener, BeaconConsumer {
+    private BeaconManager beaconManager = BeaconManager.getInstanceForApplication(this);
     private static final String TAG = "AndroidProximityReferenceApplication";
     private RegionBootstrap regionBootstrap;
     private BackgroundPowerSaver backgroundPowerSaver;
     private boolean haveDetectedBeaconsSinceBoot = false;
     private SpecifyViewActivity specifyViewActivity = null;
 
-
-    String user_name=null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,27 +52,18 @@ public class SpecifyViewActivity extends Activity implements View.OnClickListene
         btGoSpec3.setBackgroundResource(R.mipmap.white);
         ImageButton btGoSpec4 = (ImageButton)findViewById(R.id.specification4);
         btGoSpec4.setBackgroundResource(R.mipmap.white);
-        ImageView topBar = (ImageView)findViewById(R.id.TopBar2);
-        topBar.setAdjustViewBounds(true);
-
-        Intent intent_from = getIntent();
-        if (intent_from != null){
-            user_name = (String)intent_from.getSerializableExtra("name");
-        }
-
+        /*
         ImageButton btGoSpec1 = (ImageButton)findViewById(R.id.specification1);
         btGoSpec1.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent = new Intent(SpecifyViewActivity.this,DetailViewActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                 ItemSet itemSet = new ItemSet();
+                itemSet.description = "1번 상품이다";
                 itemSet.imageList.add(R.mipmap.blouson0);
                 itemSet.imageList.add(R.mipmap.blouson1);
                 itemSet.imageList.add(R.mipmap.blouson2);
-                int index = 1;
                 intent.putExtra("itemSet",itemSet);
-                intent.putExtra("index",index);
-                intent.putExtra("name",user_name);
                 startActivity(intent);
             }
         });
@@ -77,13 +74,11 @@ public class SpecifyViewActivity extends Activity implements View.OnClickListene
                 Intent intent = new Intent(SpecifyViewActivity.this, DetailViewActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                 ItemSet itemSet = new ItemSet();
+                itemSet.description = "2번 상품이다";
                 itemSet.imageList.add(R.mipmap.coat0);
                 itemSet.imageList.add(R.mipmap.coat1);
                 itemSet.imageList.add(R.mipmap.coat2);
-                int index = 2;
-                intent.putExtra("itemSet",itemSet);
-                intent.putExtra("index",index);
-                intent.putExtra("name",user_name);
+                intent.putExtra("itemSet", itemSet);
                 startActivity(intent);
             }
         });
@@ -94,13 +89,11 @@ public class SpecifyViewActivity extends Activity implements View.OnClickListene
                 Intent intent = new Intent(SpecifyViewActivity.this, DetailViewActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                 ItemSet itemSet = new ItemSet();
+                itemSet.description = "3번 상품이다";
                 itemSet.imageList.add(R.mipmap.denim0);
                 itemSet.imageList.add(R.mipmap.denim1);
                 itemSet.imageList.add(R.mipmap.denim2);
-                int index = 3;
-                intent.putExtra("itemSet",itemSet);
-                intent.putExtra("index",index);
-                intent.putExtra("name",user_name);
+                intent.putExtra("itemSet", itemSet);
                 startActivity(intent);
             }
         });
@@ -115,13 +108,12 @@ public class SpecifyViewActivity extends Activity implements View.OnClickListene
                 //itemSet.imageList.add(R.mipmap.coat0);
                 //itemSet.imageList.add(R.mipmap.coat1);
                 //itemSet.imageList.add(R.mipmap.coat2);
-                int index = 4;
-                intent.putExtra("itemSet",itemSet);
-                intent.putExtra("index",index);
-                intent.putExtra("name",user_name);
+                intent.putExtra("itemSet", itemSet);
                 startActivity(intent);
             }
         });*/
+
+        beaconManager.bind(this);
     }
 
     @Override
@@ -176,5 +168,54 @@ public class SpecifyViewActivity extends Activity implements View.OnClickListene
             builder.show();
 
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        beaconManager.unbind(this);
+    }
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (beaconManager.isBound(this)) beaconManager.setBackgroundMode(true);
+    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (beaconManager.isBound(this)) beaconManager.setBackgroundMode(false);
+    }
+
+    @Override
+    public void onBeaconServiceConnect() {
+        beaconManager.setRangeNotifier(new RangeNotifier() {
+            @Override
+            public void didRangeBeaconsInRegion(Collection<Beacon> beacons, Region region) {
+                if (beacons.size() > 0) {
+                    Iterator itr = beacons.iterator();
+                    EditText editText = (EditText) SpecifyViewActivity.this
+                            .findViewById(R.id.rangingText);
+                    for (int i = 0; i < beacons.size(); i ++) {
+                        Beacon beacon = (Beacon)itr.next();
+                        logToDisplay((i+1) + "번째" + beacon.getId3() + " is about " + beacon.getDistance() + " meters away.");
+                    }
+                }
+            }
+
+        });
+
+        try {
+            beaconManager.startRangingBeaconsInRegion(new Region("myRangingUniqueId", null, null, null));
+        } catch (RemoteException e) {   }
+    }
+
+    private void logToDisplay(final String line) {
+        runOnUiThread(new Runnable() {
+            public void run() {
+                EditText editText = (EditText) SpecifyViewActivity.this
+                        .findViewById(R.id.rangingText);
+                editText.append(line + "\n");
+            }
+        });
     }
 }
