@@ -38,27 +38,24 @@ public class SpecifyViewActivity extends Activity implements View.OnClickListene
     private boolean haveDetectedBeaconsSinceBoot = false;
     private SpecifyViewActivity specifyViewActivity = null;
 
-    ArrayList<String> uid = new ArrayList<>();
+    ArrayList<String> currentId = new ArrayList<>();
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_specify_view);
-        uid.add("NULL");
-        uid.add("NULL");
-        uid.add("NULL");
+        currentId.add("NULL");
+        currentId.add("NULL");
+        currentId.add("NULL");
 
         verifyBluetooth();
 
         Button btGoSpec1 = (Button)findViewById(R.id.specification1);
-        btGoSpec1.setText(uid.get(0));
         //btGoSpec1.setBackgroundResource(R.mipmap.blouson0);
         Button btGoSpec2 = (Button)findViewById(R.id.specification2);
-        btGoSpec2.setText(uid.get(1));
         //btGoSpec2.setBackgroundResource(R.mipmap.white);
         Button btGoSpec3 = (Button)findViewById(R.id.specification3);
-        btGoSpec3.setText(uid.get(2));
         //btGoSpec3.setBackgroundResource(R.mipmap.white);
         Button btGoSpec4 = (Button)findViewById(R.id.specification4);
         //btGoSpec4.setBackgroundResource(R.mipmap.white);
@@ -198,37 +195,62 @@ public class SpecifyViewActivity extends Activity implements View.OnClickListene
 
     @Override
     public void onBeaconServiceConnect() {
-        final ArrayList<Integer> isAlive = new ArrayList<>();
-        isAlive.add(0);
-        isAlive.add(0);
-        isAlive.add(0);
+        final ArrayList<Integer> isExist = new ArrayList<>();
+        isExist.add(0);
+        isExist.add(0);
+        isExist.add(0);
+        isExist.add(0);
+        isExist.add(0);
+        isExist.add(0);
         beaconManager.setRangeNotifier(new RangeNotifier() {
             @Override
             public void didRangeBeaconsInRegion(Collection<Beacon> beacons, Region region) {
-                final ArrayList<String> reArr = new ArrayList<>();
+                final ArrayList<String> inputId = new ArrayList<>();
                 if (beacons.size() > 0) {
                     Iterator itr = beacons.iterator();
 
                     for (int i = 0; i < beacons.size(); i ++) {
                         Beacon beacon = (Beacon)itr.next();
-                        checkId(beacon.getId3().toString(), isAlive);
+                        inputId.add(beacon.getId3().toString());
+                        //checkId(beacon.getId3().toString(), isAlive);
                     }
-                    for(int i = 0; i < 3; i++) {
-                        if (isAlive.get(i)!=0)
-                            reArr.add(uid.get(i));
-                        isAlive.set(i,0);
+                    for (int i = 0; i < beacons.size(); i ++) {
+                        for (int j = 0; j < 3 ; j++){
+                            if(inputId.get(i).equals(currentId.get(j))) {
+                                isExist.set(j, 1);
+                                isExist.set(i+3, 1);
+                            }
+                        }
                     }
-                    //reArrange
-                    for(int i = 0; i < reArr.size(); i++){
-                        uid.set(i, reArr.get(i));
+
+                    for (int i = 0; i < 3; i ++) {
+                        if(isExist.get(i)==0 && !currentId.get(i).equals("NULL")){
+                            currentId.remove(i);
+                            currentId.add("NULL");
+                        }
                     }
-                    for(int i = reArr.size(); i < 3; i++){
-                        uid.set(i, "NULL");
+
+                    for (int i = 0; i < beacons.size(); i ++) {
+                        if (isExist.get(i+3)==0) {
+                            for (int j = 0; j < 3; j++) {
+                                if (currentId.get(j).equals("NULL")){
+                                    currentId.set(j,inputId.get(i));
+                                    break;
+                                }
+                            }
+                        }
                     }
+
+                    for (int i = 0; i < 6; i++)
+                        isExist.set(i,0);
+                    int k = inputId.size();
+                    for (int i = 0; i < k;i++)
+                        inputId.remove(0);
+
                 }
                 else{
                     for(int i = 0; i < 3; i++)
-                        uid.set(i, "NULL");
+                        currentId.set(i, "NULL");
                 }
                 ToDisplay();
 
@@ -245,43 +267,14 @@ public class SpecifyViewActivity extends Activity implements View.OnClickListene
         runOnUiThread(new Runnable() {
             public void run() {
                 Button bt1 = (Button)findViewById(R.id.specification1);
-                bt1.setText(uid.get(0));
+                bt1.setText(currentId.get(0));
                 Button bt2 = (Button)findViewById(R.id.specification2);
-                bt2.setText(uid.get(1));
+                bt2.setText(currentId.get(1));
                 Button bt3 = (Button)findViewById(R.id.specification3);
-                bt3.setText(uid.get(2));
+                bt3.setText(currentId.get(2));
             }
         });
     }
-
-    public void checkId(String id, ArrayList<Integer> isA){
-
-        int isExistFlag = 0;
-
-        for (int i = 0 ; i < 3 ; i++)
-        {
-            if(uid.get(i)==id) {
-                isA.set(i, 1);
-                isExistFlag = 1;
-                break;
-            }
-
-        }
-        if(isExistFlag==0) {
-            for (int i = 0; i < 3; i++) {
-                if (uid.get(i) == "NULL") {
-                    uid.set(i, id);
-                    isA.set(i, 1);
-                    break;
-                }
-
-            }
-        }
-
-    }
-
-
-
 
 }
 
