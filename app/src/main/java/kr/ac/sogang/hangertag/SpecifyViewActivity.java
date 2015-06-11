@@ -11,6 +11,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+
 
 import org.altbeacon.beacon.Beacon;
 import org.altbeacon.beacon.BeaconConsumer;
@@ -37,7 +39,7 @@ public class SpecifyViewActivity extends Activity implements View.OnClickListene
     private BackgroundPowerSaver backgroundPowerSaver;
     private boolean haveDetectedBeaconsSinceBoot = false;
     private SpecifyViewActivity specifyViewActivity = null;
-
+    String user_name=null;
     ArrayList<String> currentId = new ArrayList<>();
 
 
