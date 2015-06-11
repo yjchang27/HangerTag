@@ -46,81 +46,22 @@ public class SpecifyViewActivity extends Activity implements View.OnClickListene
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Intent intent_from = getIntent();
+        if (intent_from != null){
+            user_name = (String)intent_from.getSerializableExtra("name");
+        }
+
         setContentView(R.layout.activity_specify_view);
+
+        ImageView topBar = (ImageView)findViewById(R.id.TopBar2);
+        topBar.setAdjustViewBounds(true);
+
         currentId.add("NULL");
         currentId.add("NULL");
         currentId.add("NULL");
 
         verifyBluetooth();
-
-        ImageButton btGoSpec1 = (ImageButton)findViewById(R.id.specification1);
-        //btGoSpec1.setBackgroundResource(R.mipmap.blouson0);
-        ImageButton btGoSpec2 = (ImageButton)findViewById(R.id.specification2);
-        //btGoSpec2.setBackgroundResource(R.mipmap.white);
-        ImageButton btGoSpec3 = (ImageButton)findViewById(R.id.specification3);
-        //btGoSpec3.setBackgroundResource(R.mipmap.white);
-        ImageButton btGoSpec4 = (ImageButton)findViewById(R.id.specification4);
-        //btGoSpec4.setBackgroundResource(R.mipmap.white);
-/*
-        ImageButton btGoSpec1 = (ImageButton)findViewById(R.id.specification1);
-        btGoSpec1.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Intent intent = new Intent(SpecifyViewActivity.this,DetailViewActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-                ItemSet itemSet = new ItemSet();
-                itemSet.description = "1번 상품이다";
-                itemSet.imageList.add(R.mipmap.blouson0);
-                itemSet.imageList.add(R.mipmap.blouson1);
-                itemSet.imageList.add(R.mipmap.blouson2);
-                intent.putExtra("itemSet",itemSet);
-                startActivity(intent);
-            }
-        });
-
-        ImageButton btGoSpec2 = (ImageButton)findViewById(R.id.specification2);
-        btGoSpec2.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Intent intent = new Intent(SpecifyViewActivity.this, DetailViewActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-                ItemSet itemSet = new ItemSet();
-                itemSet.description = "2번 상품이다";
-                itemSet.imageList.add(R.mipmap.coat0);
-                itemSet.imageList.add(R.mipmap.coat1);
-                itemSet.imageList.add(R.mipmap.coat2);
-                intent.putExtra("itemSet", itemSet);
-                startActivity(intent);
-            }
-        });
-
-        ImageButton btGoSpec3 = (ImageButton)findViewById(R.id.specification3);
-        btGoSpec3.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Intent intent = new Intent(SpecifyViewActivity.this, DetailViewActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-                ItemSet itemSet = new ItemSet();
-                itemSet.description = "3번 상품이다";
-                itemSet.imageList.add(R.mipmap.denim0);
-                itemSet.imageList.add(R.mipmap.denim1);
-                itemSet.imageList.add(R.mipmap.denim2);
-                intent.putExtra("itemSet", itemSet);
-                startActivity(intent);
-            }
-        });
-
-        ImageButton btGoSpec4 = (ImageButton)findViewById(R.id.specification4);
-        btGoSpec4.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Intent intent = new Intent(SpecifyViewActivity.this, DetailViewActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-                ItemSet itemSet = new ItemSet();
-                //itemSet.description = "4번 상품이다";
-                //itemSet.imageList.add(R.mipmap.coat0);
-                //itemSet.imageList.add(R.mipmap.coat1);
-                //itemSet.imageList.add(R.mipmap.coat2);
-                intent.putExtra("itemSet", itemSet);
-                startActivity(intent);
-            }
-        });*/
 
         beaconManager.bind(this);
     }
@@ -279,6 +220,8 @@ public class SpecifyViewActivity extends Activity implements View.OnClickListene
                                                      ItemSet itemSet = new ItemSet();
                                                      itemSet.imageList.add(setBtImage(currentId.get(0)));
                                                      intent.putExtra("itemSet", itemSet);
+                                                     intent.putExtra("name",user_name);
+                                                     intent.putExtra("id",Integer.parseInt(currentId.get(0))-64001);
                                                      startActivity(intent);
                                                  }
                                              });
@@ -294,6 +237,8 @@ public class SpecifyViewActivity extends Activity implements View.OnClickListene
                             ItemSet itemSet = new ItemSet();
                             itemSet.imageList.add(setBtImage(currentId.get(1)));
                             intent.putExtra("itemSet", itemSet);
+                            intent.putExtra("name",user_name);
+                            intent.putExtra("id",Integer.parseInt(currentId.get(1))-64001);
                             startActivity(intent);
                         }
                     });
@@ -309,6 +254,8 @@ public class SpecifyViewActivity extends Activity implements View.OnClickListene
                             ItemSet itemSet = new ItemSet();
                             itemSet.imageList.add(setBtImage(currentId.get(2)));
                             intent.putExtra("itemSet", itemSet);
+                            intent.putExtra("name",user_name);
+                            intent.putExtra("id",Integer.parseInt(currentId.get(2))-64001);
                             startActivity(intent);
                         }
                     });
