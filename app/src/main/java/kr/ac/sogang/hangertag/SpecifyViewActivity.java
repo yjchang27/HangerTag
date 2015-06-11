@@ -212,24 +212,28 @@ public class SpecifyViewActivity extends Activity implements View.OnClickListene
                 ImageButton bt1 = (ImageButton)findViewById(R.id.specification1);
                 bt1.setImageResource(setBtImage(currentId.get(0)));
 
-                if(!currentId.get(0).equals("NULL"))
-                bt1.setOnClickListener(new View.OnClickListener() {
-                                                 public void onClick(View v) {
-                                                     Intent intent = new Intent(SpecifyViewActivity.this, DetailViewActivity.class);
-                                                     intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-                                                     ItemSet itemSet = new ItemSet();
-                                                     itemSet.imageList.add(setBtImage(currentId.get(0)));
-                                                     intent.putExtra("itemSet", itemSet);
-                                                     intent.putExtra("name",user_name);
-                                                     intent.putExtra("id",Integer.parseInt(currentId.get(0))-64001);
-                                                     startActivity(intent);
-                                                 }
-                                             });
+                if(!currentId.get(0).equals("NULL")) {
+                    bt1.setOnClickListener(new View.OnClickListener() {
+                        public void onClick(View v) {
+                            Intent intent = new Intent(SpecifyViewActivity.this, DetailViewActivity.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                            ItemSet itemSet = new ItemSet();
+                            itemSet.imageList.add(setBtImage(currentId.get(0)));
+                            intent.putExtra("itemSet", itemSet);
+                            intent.putExtra("name", user_name);
+                            intent.putExtra("id", Integer.parseInt(currentId.get(0)) - 64001);
+                            startActivity(intent);
+                        }
+                    });
+                }
+                else if(bt1.hasOnClickListeners())
+                    bt1.setOnClickListener(null);
 
-                ImageButton bt2 = (ImageButton)findViewById(R.id.specification2);
-                bt2.setImageResource(setBtImage(currentId.get(1)));
+                    ImageButton bt2 = (ImageButton) findViewById(R.id.specification2);
+                    bt2.setImageResource(setBtImage(currentId.get(1)));
 
-                if(!currentId.get(1).equals("NULL"))
+
+                if(!currentId.get(1).equals("NULL")) {
                     bt2.setOnClickListener(new View.OnClickListener() {
                         public void onClick(View v) {
                             Intent intent = new Intent(SpecifyViewActivity.this, DetailViewActivity.class);
@@ -237,16 +241,19 @@ public class SpecifyViewActivity extends Activity implements View.OnClickListene
                             ItemSet itemSet = new ItemSet();
                             itemSet.imageList.add(setBtImage(currentId.get(1)));
                             intent.putExtra("itemSet", itemSet);
-                            intent.putExtra("name",user_name);
-                            intent.putExtra("id",Integer.parseInt(currentId.get(1))-64001);
+                            intent.putExtra("name", user_name);
+                            intent.putExtra("id", Integer.parseInt(currentId.get(1)) - 64001);
                             startActivity(intent);
                         }
                     });
+                }
+                else if(bt2.hasOnClickListeners())
+                    bt2.setOnClickListener(null);
 
                 ImageButton bt3 = (ImageButton)findViewById(R.id.specification3);
                 bt3.setImageResource(setBtImage(currentId.get(2)));
 
-                if(!currentId.get(2).equals("NULL"))
+                if(!currentId.get(2).equals("NULL")) {
                     bt3.setOnClickListener(new View.OnClickListener() {
                         public void onClick(View v) {
                             Intent intent = new Intent(SpecifyViewActivity.this, DetailViewActivity.class);
@@ -254,11 +261,14 @@ public class SpecifyViewActivity extends Activity implements View.OnClickListene
                             ItemSet itemSet = new ItemSet();
                             itemSet.imageList.add(setBtImage(currentId.get(2)));
                             intent.putExtra("itemSet", itemSet);
-                            intent.putExtra("name",user_name);
-                            intent.putExtra("id",Integer.parseInt(currentId.get(2))-64001);
+                            intent.putExtra("name", user_name);
+                            intent.putExtra("id", Integer.parseInt(currentId.get(2)) - 64001);
                             startActivity(intent);
                         }
                     });
+                }
+                else if(bt3.hasOnClickListeners())
+                    bt3.setOnClickListener(null);
             }
         });
     }

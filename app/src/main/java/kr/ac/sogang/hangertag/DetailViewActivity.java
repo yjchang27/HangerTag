@@ -79,15 +79,20 @@ public class DetailViewActivity extends Activity implements View.OnClickListener
     int itemIndex;
     ItemSet itemThis;    // 현 페이지에 표시할 아이템
     ArrayList<ItemSet> itemList;
+    ArrayList<String> nameList;
+    ArrayList<Integer> userIdList;
     String user_name=null;
+    int user_id;
     int postItemId;
     String jsonPageComment;
+    String jsonPageUser;
     String kdesc;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_view);
+
         topBar = (ImageView)findViewById(R.id.TopBar);
         topBar.setAdjustViewBounds(true);
         header = getLayoutInflater().inflate(R.layout.activity_detail_header,null,false);
@@ -99,12 +104,7 @@ public class DetailViewActivity extends Activity implements View.OnClickListener
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
         }
-        itemName = (TextView)findViewById(R.id.tvItemName);
-        itemDescription = (TextView)findViewById(R.id.ItemDescription);
-        itemThis = new ItemSet();
-        itemList = new ArrayList<>();
         images = new ArrayList<>();
-
         Intent intent = getIntent();
         ItemSet itemSet = new ItemSet();
         if (intent != null){
@@ -115,8 +115,12 @@ public class DetailViewActivity extends Activity implements View.OnClickListener
             user_name = (String)intent.getSerializableExtra("name");
         }
 
-
-        new JsonLoadingTask().execute();
+        itemName = (TextView)findViewById(R.id.tvItemName);
+        itemDescription = (TextView)findViewById(R.id.ItemDescription);
+        itemThis = new ItemSet();
+        itemList = new ArrayList<>();
+        nameList = new ArrayList<>();
+        userIdList = new ArrayList<>();
 
         //itemGallery = (Gallery)findViewById(R.id.ItemGallery);
         itemImage = (ImageView)findViewById(R.id.ItemImage);
@@ -137,20 +141,23 @@ public class DetailViewActivity extends Activity implements View.OnClickListener
         replyFill = (EditText)findViewById(R.id.etReplyFill);
         replySet = (Button)findViewById(R.id.btReplySet);
 
+        new JsonLoadingTask().execute();
 
         replySet.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v) {
                 if(user_name!=null) {
 
                     Reply temp = new Reply();
-                    temp.UserId = user_name;
+                    temp.UserId = user_id;
+                    temp.UserName = user_name;
                     temp.Content = replyFill.getText().toString();
                     replies.add(temp);
                     replyAdapter.notifyDataSetChanged();
                     JSONObject jSon = new JSONObject();
                     try {
-                        jSon.put("customer_id", "2");
+                        jSon.put("customer_id", user_id);
                         jSon.put("product_id",postItemId);
+                        jSon.put("title",user_name);
                         jSon.put("body",temp.Content);
                     } catch (JSONException e) {e.printStackTrace();}
 
@@ -171,10 +178,12 @@ public class DetailViewActivity extends Activity implements View.OnClickListener
                     catch (ClientProtocolException e) {e.printStackTrace();}
                     catch (IOException e) {e.printStackTrace();}
 
-
+                replyFill.setText(null);
                 }
             }
         });
+
+
 
         /*itemGallery.setAdapter(new GalleryAdapter(this));
         itemGallery.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -254,7 +263,7 @@ public class DetailViewActivity extends Activity implements View.OnClickListener
             if (convertView == null) convertView = inflater.inflate(layout,parent,false);
 
             TextView id = (TextView) convertView.findViewById(R.id.tvReplyId);
-            id.setText(replylist.get(position).UserId);
+            id.setText(replylist.get(position).UserName);
 
             TextView con = (TextView) convertView.findViewById(R.id.tvReplyCon);
             con.setText(replylist.get(position).Content);
@@ -340,6 +349,9 @@ public class DetailViewActivity extends Activity implements View.OnClickListener
             itemName.setText(itemThis.name);
             itemDescription.setText(result);
             getJSONComments(jsonPageComment);
+            for(int i=0;i<userIdList.size();i++)
+                if(nameList.get(i).equals(user_name))
+                    user_id = userIdList.get(i);
             postView();
         } // onPostExecute : 백그라운드 작업이 끝난 후 UI 작업을 진행한다.
     } // JsonLoadingTask
@@ -357,13 +369,11 @@ public class DetailViewActivity extends Activity implements View.OnClickListener
 
             //읽어들인 JSON포맷의 데이터를 JSON객체로 변환
             JSONObject json = new JSONObject(jsonPage);
-
+            //
 
             //list의 값은 배열로 구성 되어있으므로 JSON 배열생성
             JSONArray jArr = json.getJSONArray("products");
-
-
-            //배열의 크기만큼 반복하면서, ksNo과 korName의 값을 추출함
+            //
             for (int i=0; i<jArr.length(); i++){
 
                 //i번째 배열 할당
@@ -383,6 +393,19 @@ public class DetailViewActivity extends Activity implements View.OnClickListener
                 itemList.add(item);
 
             }
+
+            jsonPageUser = getStringFromUrl("http://trn.iptime.org:3000/customers.json");
+            JSONObject jsonU = new JSONObject(jsonPageUser);
+            JSONArray jArr2 = jsonU.getJSONArray("customers");
+            for (int i=0; i<jArr2.length(); i++) {
+                jsonU = jArr2.getJSONObject(i);
+                String string = jsonU.getString("customer");
+                string.substring(12);
+                JSONObject jsonU2 = new JSONObject(string);
+                userIdList.add(Integer.parseInt(jsonU2.getString("id")));
+                nameList.add(jsonU2.getString("name"));
+            }
+            //
 
         } catch (Exception e) {
             // TODO: handle exception
@@ -441,7 +464,9 @@ public class DetailViewActivity extends Activity implements View.OnClickListener
     public void getJSONComments(String jPC) {
         try {
             JSONObject jsonComment = new JSONObject(jPC);
+
             JSONArray jArrComment = jsonComment.getJSONArray("customer_comments");
+
             for (int i = 0; i < jArrComment.length(); i++) {
 
                 //i번째 배열 할당
@@ -453,7 +478,8 @@ public class DetailViewActivity extends Activity implements View.OnClickListener
 
                 if (j == itemIndex) {
                     Reply reply = new Reply();
-                    reply.UserId = json2.getString("customer_id");
+                    reply.UserId = Integer.parseInt(json2.getString("customer_id"));
+                    reply.UserName = json2.getString("title");
                     reply.Content = json2.getString("body");
                     replies.add(reply);
                     replyAdapter.notifyDataSetChanged();
@@ -466,7 +492,7 @@ public class DetailViewActivity extends Activity implements View.OnClickListener
     public void postView(){
         JSONObject jSon = new JSONObject();
         try {
-            jSon.put("Customer_id", "2");
+            jSon.put("Customer_id", user_id);
             jSon.put("Product_id",postItemId);
             jSon.put("Point","1");
         } catch (JSONException e) {e.printStackTrace();}
