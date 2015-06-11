@@ -51,13 +51,13 @@ public class SpecifyViewActivity extends Activity implements View.OnClickListene
 
         verifyBluetooth();
 
-        Button btGoSpec1 = (Button)findViewById(R.id.specification1);
+        ImageButton btGoSpec1 = (ImageButton)findViewById(R.id.specification1);
         //btGoSpec1.setBackgroundResource(R.mipmap.blouson0);
-        Button btGoSpec2 = (Button)findViewById(R.id.specification2);
+        ImageButton btGoSpec2 = (ImageButton)findViewById(R.id.specification2);
         //btGoSpec2.setBackgroundResource(R.mipmap.white);
-        Button btGoSpec3 = (Button)findViewById(R.id.specification3);
+        ImageButton btGoSpec3 = (ImageButton)findViewById(R.id.specification3);
         //btGoSpec3.setBackgroundResource(R.mipmap.white);
-        Button btGoSpec4 = (Button)findViewById(R.id.specification4);
+        ImageButton btGoSpec4 = (ImageButton)findViewById(R.id.specification4);
         //btGoSpec4.setBackgroundResource(R.mipmap.white);
 /*
         ImageButton btGoSpec1 = (ImageButton)findViewById(R.id.specification1);
@@ -266,14 +266,63 @@ public class SpecifyViewActivity extends Activity implements View.OnClickListene
     private void ToDisplay() {
         runOnUiThread(new Runnable() {
             public void run() {
-                Button bt1 = (Button)findViewById(R.id.specification1);
-                bt1.setText(currentId.get(0));
-                Button bt2 = (Button)findViewById(R.id.specification2);
-                bt2.setText(currentId.get(1));
-                Button bt3 = (Button)findViewById(R.id.specification3);
-                bt3.setText(currentId.get(2));
+                ImageButton bt1 = (ImageButton)findViewById(R.id.specification1);
+                bt1.setImageResource(setBtImage(currentId.get(0)));
+
+                if(!currentId.get(0).equals("NULL"))
+                bt1.setOnClickListener(new View.OnClickListener() {
+                                                 public void onClick(View v) {
+                                                     Intent intent = new Intent(SpecifyViewActivity.this, DetailViewActivity.class);
+                                                     intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                                                     ItemSet itemSet = new ItemSet();
+                                                     itemSet.imageList.add(setBtImage(currentId.get(0)));
+                                                     intent.putExtra("itemSet", itemSet);
+                                                     startActivity(intent);
+                                                 }
+                                             });
+
+                ImageButton bt2 = (ImageButton)findViewById(R.id.specification2);
+                bt2.setImageResource(setBtImage(currentId.get(1)));
+
+                if(!currentId.get(1).equals("NULL"))
+                    bt2.setOnClickListener(new View.OnClickListener() {
+                        public void onClick(View v) {
+                            Intent intent = new Intent(SpecifyViewActivity.this, DetailViewActivity.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                            ItemSet itemSet = new ItemSet();
+                            itemSet.imageList.add(setBtImage(currentId.get(1)));
+                            intent.putExtra("itemSet", itemSet);
+                            startActivity(intent);
+                        }
+                    });
+
+                ImageButton bt3 = (ImageButton)findViewById(R.id.specification3);
+                bt3.setImageResource(setBtImage(currentId.get(2)));
+
+                if(!currentId.get(2).equals("NULL"))
+                    bt3.setOnClickListener(new View.OnClickListener() {
+                        public void onClick(View v) {
+                            Intent intent = new Intent(SpecifyViewActivity.this, DetailViewActivity.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                            ItemSet itemSet = new ItemSet();
+                            itemSet.imageList.add(setBtImage(currentId.get(2)));
+                            intent.putExtra("itemSet", itemSet);
+                            startActivity(intent);
+                        }
+                    });
             }
         });
+    }
+
+    private int setBtImage(String id) {
+        if (id.equals("64002"))
+            return R.mipmap.bluetee;
+        else if (id.equals("64003"))
+            return R.mipmap.camopants;
+        else if (id.equals("64004"))
+            return R.mipmap.blackcard;
+        else
+            return R.mipmap.bluoff;
     }
 
 }

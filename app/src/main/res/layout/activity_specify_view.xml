@@ -25,18 +25,20 @@
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:layout_weight="1">
-            <Button
+            <ImageButton
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 android:layout_weight="1"
-                android:text="NULL"
+                android:src="@mipmap/bluoff"
+                android:scaleType="centerCrop"
                 android:background="#ffffff"
                 android:id="@+id/specification1"/>
-            <Button
+            <ImageButton
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 android:layout_weight="1"
-                android:text="NULL"
+                android:src="@mipmap/bluoff"
+                android:scaleType="centerCrop"
                 android:background="#ffffff"
                 android:id="@+id/specification2"/>
         </TableRow>
@@ -44,18 +46,20 @@
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:layout_weight="1">
-            <Button
+            <ImageButton
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 android:layout_weight="1"
-                android:text="NULL"
+                android:src="@mipmap/bluoff"
+                android:scaleType="centerCrop"
                 android:background="#ffffff"
                 android:id="@+id/specification3"/>
-            <Button
+            <ImageButton
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 android:layout_weight="1"
-                android:text="NULL"
+                android:src="@mipmap/bluoff"
+                android:scaleType="centerCrop"
                 android:background="#ffffff"
                 android:id="@+id/specification4"/>
         </TableRow>
