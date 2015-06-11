@@ -66,9 +66,9 @@ public class DetailViewActivity extends Activity implements View.OnClickListener
     TextView itemName;
     ImageView itemImage;    // 상품의 사진을 게시하는 이미지 뷰.
     TextView itemDescription;   // 상품 설명
-    Gallery itemGallery;    // 상품의 사진을 넘겨 이미지 뷰에 올리는 갤러리.
-    ImageButton itemOthers1;
-    ImageButton itemOthers2;
+    //Gallery itemGallery;    // 상품의 사진을 넘겨 이미지 뷰에 올리는 갤러리.
+    ImageButton toKorean;
+    ImageButton toChinese;
     ImageButton itemOthers3;    // 상단에 위치하여 다른 상품으로 넘어갈 수 있게 하는 이미지 버튼.
     ArrayList<Integer> images;
     EditText replyFill;
@@ -82,6 +82,7 @@ public class DetailViewActivity extends Activity implements View.OnClickListener
     String user_name=null;
     int postItemId;
     String jsonPageComment;
+    String kdesc;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,7 +99,6 @@ public class DetailViewActivity extends Activity implements View.OnClickListener
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
         }
-
         itemName = (TextView)findViewById(R.id.tvItemName);
         itemDescription = (TextView)findViewById(R.id.ItemDescription);
         itemThis = new ItemSet();
@@ -106,19 +106,22 @@ public class DetailViewActivity extends Activity implements View.OnClickListener
         images = new ArrayList<>();
 
         Intent intent = getIntent();
+        ItemSet itemSet = new ItemSet();
         if (intent != null){
-            ItemSet itemSet;
+
             itemSet = (ItemSet)intent.getSerializableExtra("itemSet");
             itemIndex = (int)intent.getSerializableExtra("id");
             images = itemSet.imageList;
             user_name = (String)intent.getSerializableExtra("name");
         }
 
+
         new JsonLoadingTask().execute();
 
-        itemGallery = (Gallery)findViewById(R.id.ItemGallery);
+        //itemGallery = (Gallery)findViewById(R.id.ItemGallery);
         itemImage = (ImageView)findViewById(R.id.ItemImage);
-
+        itemImage.setImageResource(itemSet.imageList.get(0));
+/*
         itemOthers1 = (ImageButton)findViewById(R.id.ibDetail1);
         itemOthers1.setOnClickListener(this);
         itemOthers2 = (ImageButton)findViewById(R.id.ibDetail2);
@@ -126,6 +129,10 @@ public class DetailViewActivity extends Activity implements View.OnClickListener
         itemOthers3 = (ImageButton)findViewById(R.id.ibDetail3);
         itemOthers3.setOnClickListener(this);
 
+*/      toKorean = (ImageButton)findViewById(R.id.ibKorean);
+        toKorean.setOnClickListener(this);
+        toChinese = (ImageButton)findViewById(R.id.ibChinese);
+        toChinese.setOnClickListener(this);
 
         replyFill = (EditText)findViewById(R.id.etReplyFill);
         replySet = (Button)findViewById(R.id.btReplySet);
@@ -169,7 +176,7 @@ public class DetailViewActivity extends Activity implements View.OnClickListener
             }
         });
 
-        itemGallery.setAdapter(new GalleryAdapter(this));
+        /*itemGallery.setAdapter(new GalleryAdapter(this));
         itemGallery.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -180,7 +187,7 @@ public class DetailViewActivity extends Activity implements View.OnClickListener
             public void onNothingSelected(AdapterView<?> parent) {
 
             }
-        });
+        });*/
 
 
     }
@@ -259,8 +266,24 @@ public class DetailViewActivity extends Activity implements View.OnClickListener
     public void onClick(View v){
         Intent intent = new Intent(DetailViewActivity.this,DetailViewActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-        ItemSet itemSet = new ItemSet();
-        if(v.getId()==R.id.ibDetail1) {
+        if(v.getId()==R.id.ibChinese) {
+            kdesc = itemDescription.getText().toString();
+            String cdesc = "价格 : " + itemThis.price +
+                    "\n类别 : 简单" +
+                    "\n尺寸 : 特大" +
+                    "\n描述 : 这是很酷的调子T恤匹配夏天";
+            itemName.setText("蓝色T恤");
+            itemDescription.setText(cdesc);
+            replySet.setText("登记");
+            replyFill.setHint("输入回复请");
+        }
+        if(v.getId()==R.id.ibKorean) {
+            itemName.setText(itemThis.name);
+            itemDescription.setText(kdesc);
+            replySet.setText("등록");
+            replyFill.setHint("댓글을 입력하세요...");
+        }
+        /*
             itemSet.imageList.add(R.mipmap.blouson0);
             itemSet.imageList.add(R.mipmap.blouson1);
             itemSet.imageList.add(R.mipmap.blouson2);
@@ -289,8 +312,9 @@ public class DetailViewActivity extends Activity implements View.OnClickListener
             intent.putExtra("itemSet",itemSet);
             intent.putExtra("index",index);
             intent.putExtra("name",user_name);
-        }
-        startActivity(intent);
+        }*/
+
+        //startActivity(intent);
 
     } // 다른 상품 이미지 버튼 리스너
 
@@ -353,7 +377,7 @@ public class DetailViewActivity extends Activity implements View.OnClickListener
                 item.name = json2.getString("name");
                 item.price = Integer.parseInt(json2.getString("price"));
                 item.type = json2.getString("type");
-                item.size = json2.getString("size").charAt(0);
+                item.size = json2.getString("size");
                 item.description = json2.getString("description");
 
                 itemList.add(item);

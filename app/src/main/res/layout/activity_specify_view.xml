@@ -5,6 +5,7 @@
 
     <ImageView
         android:id="@+id/TopBar2"
+        android:layout_gravity="center"
         android:src="@mipmap/topbar"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content" />
