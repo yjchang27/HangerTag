@@ -41,6 +41,7 @@ public class SpecifyViewActivity extends Activity implements View.OnClickListene
     private SpecifyViewActivity specifyViewActivity = null;
     String user_name=null;
     ArrayList<String> currentId = new ArrayList<>();
+    ArrayList<Double> currentDist = new ArrayList<>();
 
 
     @Override
@@ -60,6 +61,9 @@ public class SpecifyViewActivity extends Activity implements View.OnClickListene
         currentId.add("NULL");
         currentId.add("NULL");
         currentId.add("NULL");
+        currentDist.add(0.0);
+        currentDist.add(0.0);
+        currentDist.add(0.0);
 
         verifyBluetooth();
 
@@ -149,12 +153,14 @@ public class SpecifyViewActivity extends Activity implements View.OnClickListene
             @Override
             public void didRangeBeaconsInRegion(Collection<Beacon> beacons, Region region) {
                 final ArrayList<String> inputId = new ArrayList<>();
+                final ArrayList<Double> inputDist = new ArrayList<>();
                 if (beacons.size() > 0) {
                     Iterator itr = beacons.iterator();
 
                     for (int i = 0; i < beacons.size(); i ++) {
                         Beacon beacon = (Beacon)itr.next();
                         inputId.add(beacon.getId3().toString());
+                        inputDist.add(beacon.getDistance());
                         //checkId(beacon.getId3().toString(), isAlive);
                     }
                     for (int i = 0; i < beacons.size(); i ++) {
@@ -178,6 +184,7 @@ public class SpecifyViewActivity extends Activity implements View.OnClickListene
                             for (int j = 0; j < 3; j++) {
                                 if (currentId.get(j).equals("NULL")){
                                     currentId.set(j,inputId.get(i));
+                                    currentDist.set(j,inputDist.get(i));
                                     break;
                                 }
                             }
@@ -187,13 +194,16 @@ public class SpecifyViewActivity extends Activity implements View.OnClickListene
                     for (int i = 0; i < 6; i++)
                         isExist.set(i,0);
                     int k = inputId.size();
-                    for (int i = 0; i < k;i++)
+                    for (int i = 0; i < k;i++) {
                         inputId.remove(0);
-
+                        inputDist.remove(0);
+                    }
                 }
                 else{
-                    for(int i = 0; i < 3; i++)
+                    for(int i = 0; i < 3; i++) {
                         currentId.set(i, "NULL");
+                        currentDist.set(i, 0.0);
+                    }
                 }
                 ToDisplay();
 
@@ -226,7 +236,7 @@ public class SpecifyViewActivity extends Activity implements View.OnClickListene
                         }
                     });
                 }
-                else if(bt1.hasOnClickListeners())
+                else
                     bt1.setOnClickListener(null);
 
                     ImageButton bt2 = (ImageButton) findViewById(R.id.specification2);
@@ -247,7 +257,7 @@ public class SpecifyViewActivity extends Activity implements View.OnClickListene
                         }
                     });
                 }
-                else if(bt2.hasOnClickListeners())
+                else
                     bt2.setOnClickListener(null);
 
                 ImageButton bt3 = (ImageButton)findViewById(R.id.specification3);
@@ -267,7 +277,7 @@ public class SpecifyViewActivity extends Activity implements View.OnClickListene
                         }
                     });
                 }
-                else if(bt3.hasOnClickListeners())
+                else
                     bt3.setOnClickListener(null);
             }
         });
