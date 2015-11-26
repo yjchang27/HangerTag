@@ -15,5 +15,6 @@
     <string name="app_id">670067219771799</string>
     <string name="Login">Login</string>
     <string name="Info">Info</string>
+    <string name="server_url">http://143.248.55.147:3000/</string>
 
 </resources>

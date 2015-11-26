@@ -164,7 +164,7 @@ public class DetailViewActivity extends Activity implements View.OnClickListener
 
                     try{
                         HttpClient client = new DefaultHttpClient();
-                        HttpPost post = new HttpPost("http://trn.iptime.org:3000/customer_comments.json");
+                        HttpPost post = new HttpPost(getString(R.string.server_url) + "customer_comments.json");
                         StringEntity ent = new StringEntity(jSon.toString(),"UTF-8");
                         post.setEntity(ent);
                         post.setHeader("Content-Type","application/json");
@@ -364,8 +364,8 @@ public class DetailViewActivity extends Activity implements View.OnClickListener
         try {
 
             //주어진 URL 문서의 내용을 문자열로 얻는다.
-            jsonPage = getStringFromUrl("http://trn.iptime.org:3000/products.json");
-            jsonPageComment = getStringFromUrl("http://trn.iptime.org:3000/customer_comments.json");
+            jsonPage = getStringFromUrl(getString(R.string.server_url) + "products.json");
+            jsonPageComment = getStringFromUrl(getString(R.string.server_url) + "customer_comments.json");
 
             //읽어들인 JSON포맷의 데이터를 JSON객체로 변환
             JSONObject json = new JSONObject(jsonPage);
@@ -394,7 +394,7 @@ public class DetailViewActivity extends Activity implements View.OnClickListener
 
             }
 
-            jsonPageUser = getStringFromUrl("http://trn.iptime.org:3000/customers.json");
+            jsonPageUser = getStringFromUrl(getString(R.string.server_url) + "customers.json");
             JSONObject jsonU = new JSONObject(jsonPageUser);
             JSONArray jArr2 = jsonU.getJSONArray("customers");
             for (int i=0; i<jArr2.length(); i++) {
@@ -500,7 +500,7 @@ public class DetailViewActivity extends Activity implements View.OnClickListener
 
         try{
             HttpClient client = new DefaultHttpClient();
-            HttpPost post = new HttpPost("http://trn.iptime.org:3000/views.json");
+            HttpPost post = new HttpPost(getString(R.string.server_url) + "views.json");
             StringEntity ent = new StringEntity(jSon.toString(),"UTF-8");
             post.setEntity(ent);
             post.setHeader("Content-Type","application/json");

@@ -231,7 +231,7 @@ public class SpecifyViewActivity extends Activity implements View.OnClickListene
                             itemSet.imageList.add(setBtImage(currentId.get(0)));
                             intent.putExtra("itemSet", itemSet);
                             intent.putExtra("name", user_name);
-                            intent.putExtra("id", Integer.parseInt(currentId.get(0)) - 64001);
+                            intent.putExtra("id", Integer.parseInt(currentId.get(0)));
                             startActivity(intent);
                         }
                     });
@@ -252,7 +252,7 @@ public class SpecifyViewActivity extends Activity implements View.OnClickListene
                             itemSet.imageList.add(setBtImage(currentId.get(1)));
                             intent.putExtra("itemSet", itemSet);
                             intent.putExtra("name", user_name);
-                            intent.putExtra("id", Integer.parseInt(currentId.get(1)) - 64001);
+                            intent.putExtra("id", Integer.parseInt(currentId.get(1)));
                             startActivity(intent);
                         }
                     });
@@ -272,7 +272,7 @@ public class SpecifyViewActivity extends Activity implements View.OnClickListene
                             itemSet.imageList.add(setBtImage(currentId.get(2)));
                             intent.putExtra("itemSet", itemSet);
                             intent.putExtra("name", user_name);
-                            intent.putExtra("id", Integer.parseInt(currentId.get(2)) - 64001);
+                            intent.putExtra("id", Integer.parseInt(currentId.get(2)));
                             startActivity(intent);
                         }
                     });
@@ -284,11 +284,11 @@ public class SpecifyViewActivity extends Activity implements View.OnClickListene
     }
 
     private int setBtImage(String id) {
-        if (id.equals("64002"))
+        if (id.equals("1"))
             return R.mipmap.bluetee;
-        else if (id.equals("64003"))
+        else if (id.equals("2"))
             return R.mipmap.camopants;
-        else if (id.equals("64004"))
+        else if (id.equals("3"))
             return R.mipmap.blackcard;
         else
             return R.mipmap.bluoff;
