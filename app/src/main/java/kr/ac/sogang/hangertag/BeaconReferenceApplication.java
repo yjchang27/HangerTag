@@ -20,7 +20,7 @@ import org.altbeacon.beacon.startup.RegionBootstrap;
  * Created by dyoung on 12/13/13.
  */
 public class BeaconReferenceApplication extends Application implements BootstrapNotifier {
-    private static final String TAG = "AndroidProximityReferenceApplication";
+    private static final String TAG = "AndroidProximityRef";
     private RegionBootstrap regionBootstrap;
     private BackgroundPowerSaver backgroundPowerSaver;
     private boolean haveDetectedBeaconsSinceBoot = false;
