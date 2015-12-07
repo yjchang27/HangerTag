@@ -1,4 +1,4 @@
-package kr.ac.sogang.hangertag;
+package kr.ac.sogang.hangtag;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

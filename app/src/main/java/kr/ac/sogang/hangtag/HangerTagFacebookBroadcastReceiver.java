@@ -1,4 +1,4 @@
-package kr.ac.sogang.hangertag;
+package kr.ac.sogang.hangtag;
 
 import android.os.Bundle;
 import android.util.Log;

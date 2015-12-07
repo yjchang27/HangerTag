@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="kr.ac.sogang.hangertag" >
+    package="kr.ac.sogang.hangtag" >
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
@@ -19,14 +19,14 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme"
-        android:name="kr.ac.sogang.hangertag.BeaconReferenceApplication"
+        android:name="kr.ac.sogang.hangtag.BeaconReferenceApplication"
         >
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
 
         <activity
-            android:name=".MainActivity"
+            android:name="kr.ac.sogang.hangtag.MainActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -36,18 +36,18 @@
         </activity>
 
         <activity
-            android:name=".DetailViewActivity"
+            android:name="kr.ac.sogang.hangtag.DetailViewActivity"
             android:label="@string/title_activity_detail_view" >
         </activity>
 
-        <activity android:name=".SpecifyViewActivity"/>
+        <activity android:name="kr.ac.sogang.hangtag.SpecifyViewActivity"/>
 
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
         <activity
-            android:name=".LoginActivity_new"
+            android:name="kr.ac.sogang.hangtag.LoginActivity_new"
             android:label="@string/title_activity_login_activity_new"
             android:windowSoftInputMode="adjustResize|stateVisible" />
 
@@ -60,7 +60,7 @@
         <provider android:authorities="com.facebook.app.FacebookContentProvider355198514515820"
             android:name="com.facebook.FacebookContentProvider"
             android:exported="true"/>
-        <receiver android:name="kr.ac.sogang.hangertag.HangerTagFacebookBroadcastReceiver">
+        <receiver android:name="kr.ac.sogang.hangtag.HangerTagFacebookBroadcastReceiver">
             <intent-filter>
                 <action android:name="com.facebook.platform.AppCallResultBroadcast" />
             </intent-filter>

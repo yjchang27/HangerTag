@@ -1,4 +1,4 @@
-package kr.ac.sogang.hangertag;
+package kr.ac.sogang.hangtag;
 
 import java.io.Serializable;
 import java.util.ArrayList;

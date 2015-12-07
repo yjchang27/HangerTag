@@ -5,7 +5,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="kr.ac.sogang.hangertag.LoginActivity_new"
+    tools:context="kr.ac.sogang.hangtag.LoginActivity_new"
     xmlns:facebook="http://schemas.android.com/apk/res-auto" >
 
     <LinearLayout android:orientation="vertical"
