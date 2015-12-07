@@ -8,6 +8,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 
 public class MainActivity extends FragmentActivity {
@@ -42,6 +43,8 @@ public class MainActivity extends FragmentActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         user_name = data.getStringExtra("id");
+        TextView welcomeText = (TextView)findViewById(R.id.welcomeText);
+        welcomeText.setText("Welcome " + user_name + ", this is hangtag demo!");
         super.onActivityResult(requestCode, resultCode, data);
     }
 
