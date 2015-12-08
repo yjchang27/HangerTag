@@ -79,8 +79,6 @@ public class DetailViewActivity extends Activity implements View.OnClickListener
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_view);
 
-        topBar = (ImageView)findViewById(R.id.TopBar);
-        topBar.setAdjustViewBounds(true);
         header = getLayoutInflater().inflate(R.layout.activity_detail_header,null,false);
         replyList = (ListView)findViewById(R.id.lvReply);
         replyAdapter = new ReplyAdapter(this, R.layout.reply, replies);
@@ -127,7 +125,7 @@ public class DetailViewActivity extends Activity implements View.OnClickListener
         replyFill = (EditText)findViewById(R.id.etReplyFill);
         replySet = (Button)findViewById(R.id.btReplySet);
 
-        new JsonLoadingTask().execute();
+        (new JsonLoadingTask()).execute();
 
         replySet.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v) {
@@ -313,11 +311,11 @@ public class DetailViewActivity extends Activity implements View.OnClickListener
 
     } // 다른 상품 이미지 버튼 리스너
 
-    public void onBackPressed() {
-        Intent intent = new Intent(DetailViewActivity.this, SpecifyViewActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-        startActivity(intent);
-    } // 뒤로
+//    public void onBackPressed() {
+//        Intent intent = new Intent(DetailViewActivity.this, SpecifyViewActivity.class);
+//        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+//        startActivity(intent);
+//    } // 뒤로
 
     private class JsonLoadingTask extends AsyncTask<String, Void, String> {
         @Override

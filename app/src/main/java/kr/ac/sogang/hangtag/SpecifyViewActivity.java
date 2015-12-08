@@ -52,9 +52,6 @@ public class SpecifyViewActivity extends Activity implements View.OnClickListene
 
         setContentView(R.layout.activity_specify_view);
 
-        ImageView topBar = (ImageView)findViewById(R.id.TopBar2);
-        topBar.setAdjustViewBounds(true);
-
         currentId.add("NULL");
         currentId.add("NULL");
         currentId.add("NULL");
@@ -280,7 +277,7 @@ public class SpecifyViewActivity extends Activity implements View.OnClickListene
         });
     }
 
-    private int setBtImage(String id) {
+    public static int setBtImage(String id) {
         if (id.equals("1"))
             return R.mipmap.bluetee;
         else if (id.equals("2"))

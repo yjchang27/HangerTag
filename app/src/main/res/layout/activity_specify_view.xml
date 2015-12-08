@@ -3,13 +3,6 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ImageView
-        android:id="@+id/TopBar2"
-        android:layout_gravity="center"
-        android:src="@mipmap/topbar"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content" />
-
     <TableLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"

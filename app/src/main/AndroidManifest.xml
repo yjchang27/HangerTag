@@ -26,21 +26,25 @@
             android:value="@string/facebook_app_id" />
 
         <activity
-            android:name="kr.ac.sogang.hangtag.MainActivity"
+            android:launchMode="singleInstance"
+            android:name=".MainActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
         <activity
-            android:name="kr.ac.sogang.hangtag.DetailViewActivity"
-            android:label="@string/title_activity_detail_view" >
+            android:name=".DetailViewActivity"
+            android:label="@string/title_activity_detail_view"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity"/>>
         </activity>
 
-        <activity android:name="kr.ac.sogang.hangtag.SpecifyViewActivity"/>
+        <activity android:name=".SpecifyViewActivity" />
 
         <meta-data
             android:name="com.google.android.gms.version"

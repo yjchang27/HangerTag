@@ -5,9 +5,7 @@
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="match_parent"
-    android:paddingTop="0dp"
     android:background="#FFFFFF"
-    android:gravity="center"
     >
 <!--
     <LinearLayout
@@ -42,32 +40,28 @@
     </LinearLayout>
 -->
 
-    <TextView
-        android:id="@+id/tvItemName"
-        android:layout_gravity="center"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:typeface="sans"
-        android:textStyle="bold"
-        android:textColor="#303030"
-        android:textSize="30sp"
-        />
-
-    <ImageView
-        android:id="@+id/ItemImage"
-        android:layout_gravity="center"
-        android:scaleType="centerInside"
-        android:layout_width="208dp"
-        android:layout_height="300dp" />
-
     <LinearLayout
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center" >
+        android:gravity="center"
+        android:layout_marginTop="25dp"
+        android:layout_marginBottom="25dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp">
+
+        <TextView
+            android:id="@+id/tvItemName"
+            android:text="멋진 옷 로딩중..."
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textStyle="bold" />
 
         <ImageButton
             android:id="@+id/ibKorean"
             android:src="@mipmap/korea"
+            android:backgroundTint="@android:color/white"
             android:layout_width="60dp"
             android:layout_height="40dp"
             android:scaleType="centerCrop"/>
@@ -75,11 +69,20 @@
         <ImageButton
             android:id="@+id/ibChinese"
             android:src="@mipmap/china"
+            android:backgroundTint="@android:color/white"
             android:layout_width="60dp"
             android:layout_height="40dp"
             android:scaleType="centerCrop"/>
 
-        </LinearLayout>
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/ItemImage"
+        android:layout_gravity="center"
+        android:scaleType="centerCrop"
+        android:layout_width="match_parent"
+        android:layout_height="350dp"
+        android:layout_marginBottom="25dp"/>
 
 <!--
     <Gallery
@@ -93,35 +96,38 @@
         android:id="@+id/ItemDescription"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:typeface="sans"
-        android:textStyle="bold"
-        android:textColor="#303030"
-        android:textSize="18sp"
-        android:paddingBottom="20dp"
-        android:paddingLeft="30dp"
+        android:paddingBottom="30dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="10dp"
         />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"/>
 
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:gravity="right">
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp">
 
         <EditText
             android:id="@+id/etReplyFill"
             android:hint="댓글을 입력하세요..."
-            android:textColorHint="#808080"
-            android:layout_width="280dp"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_weight="1"/>
 
         <Button
             android:id="@+id/btReplySet"
             android:text="등록"
-            android:textColor="#FFFFFF"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="#004280"
-
+            android:layout_marginLeft="10dp"
             />
 
     </LinearLayout>
