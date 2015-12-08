@@ -17,5 +17,7 @@
     <string name="Specify">Item view</string>
     <string name="Info">Info</string>
     <string name="server_url">http://143.248.55.147:3000/</string>
+    <string name="uuid">74278BDA-B644-4520-8F0C-720EAF059935</string>
+    <string name="major">4660</string>
 
 </resources>

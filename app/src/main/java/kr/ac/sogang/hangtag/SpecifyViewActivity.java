@@ -279,11 +279,11 @@ public class SpecifyViewActivity extends Activity implements View.OnClickListene
 
     public static int setBtImage(String id) {
         if (id.equals("1"))
-            return R.mipmap.bluetee;
+            return R.mipmap.coat;
         else if (id.equals("2"))
-            return R.mipmap.camopants;
+            return R.mipmap.bluejeanjacket;
         else if (id.equals("3"))
-            return R.mipmap.blackcard;
+            return R.mipmap.csbaseballjacket;
         else
             return R.mipmap.bluoff;
     }

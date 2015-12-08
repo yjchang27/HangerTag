@@ -50,16 +50,16 @@ public class BeaconReferenceApplication extends Application implements Bootstrap
         // Region region = new Region("backgroundRegion", null, null, null);
         ArrayList<Region> regionList = new ArrayList<Region>();
         regionList.add(new Region("1",
-                Identifier.parse("05F62A3D-F60F-44BC-B36E-2B80FD6C9679"),
-                Identifier.parse("4660"),
+                Identifier.parse(getString(R.string.uuid)),
+                Identifier.parse(getString(R.string.major)),
                 Identifier.parse("1")));
         regionList.add(new Region("2",
-                Identifier.parse("05F62A3D-F60F-44BC-B36E-2B80FD6C9679"),
-                Identifier.parse("4660"),
+                Identifier.parse(getString(R.string.uuid)),
+                Identifier.parse(getString(R.string.major)),
                 Identifier.parse("2")));
         regionList.add(new Region("3",
-                Identifier.parse("05F62A3D-F60F-44BC-B36E-2B80FD6C9679"),
-                Identifier.parse("4660"),
+                Identifier.parse(getString(R.string.uuid)),
+                Identifier.parse(getString(R.string.major)),
                 Identifier.parse("3")));
         regionBootstrap = new RegionBootstrap(this, regionList);
 
