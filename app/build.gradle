@@ -5,7 +5,7 @@ android {
     buildToolsVersion "23.0.2"
 
     defaultConfig {
-        applicationId "kr.ac.sogang.hangertag"
+        applicationId "kr.ac.sogang.hangtag"
         minSdkVersion 21
         targetSdkVersion 23
         versionCode 2

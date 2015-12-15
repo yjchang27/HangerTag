@@ -1,0 +1,62 @@
+
+
+                  _                       _              
+                 | |__   __ _ _ __   __ _| |_ __ _  __ _ 
+                 | '_ \ / _` | '_ \ / _` | __/ _` |/ _` |
+                 | | | | (_| | | | | (_| | || (_| | (_| |
+                 |_| |_|\__,_|_| |_|\__, |\__\__,_|\__, |
+                                    |___/          |___/ 
+
+
+README
+
+    Hangtag is a application that pairs with hangtag-hanger, a BLE beacon
+    attached hanger. Hangtag notifies the user when the hanger is picked up
+    and open the application automatically. User can find out the detailed
+    information about the product by clicking the notification. Also, the 
+    application have functionality to detect enterence and exit of beacons in
+    real-time, which later be used in store embedded device.
+
+CONFIGURATION
+
+    The hangtag application target minimum SDK of 21, Android Lollipop.
+
+    The hangtag application use open source library AltBeacon.
+    The dependency is written into the build.gradle, so no extra configuration
+    is needed. Stay connected to internet during a build process.
+
+    The beacon UUID, major, and minor are hard-coded into the code.
+    To test the app with own beacon (i.e. beacon broadcast), please set as
+    follows:
+        
+        [Type]  iBeacon
+        [UUID]  74278BDA-B644-4520-8F0C-720EAF059935
+        [Major] 4660
+        [Minor] possible values: {1, 2, 3}
+
+    The server address is hard-coded into the code. To test on the different 
+    server, please change the following part:
+
+        app/src/main/res/values/strings.xml:
+            ...
+            <string name="server_url">http://143.248.55.147:3000/</string>
+            ...
+
+        ** be sure to add a slash '/' at the end.
+
+INSTALLATION
+    
+    You may build the app using Android Studio. All the settings are written in 
+    build.gradle file, so no extra configuratio is needed. Be sure to update 
+    Android Studio to most recent version.
+
+    You can also install the hangtag.apk. The application necessiate android >=
+    Lollipop.
+
+CONTACT
+    
+    BongJin Sohn, Youngjae Chang
+    Korea Advanced Institute of Science and Technology
+    Daehak-ro 291, Yuseong-gu
+    Daejeon, South Korea
+    {sbj009, youngjae.chang} @ kaist.ac.kr
